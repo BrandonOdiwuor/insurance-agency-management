@@ -1,0 +1,150 @@
+.card{
+    border-radius: 15px;
+    position: relative;
+    top: 10px;
+    margin:auto;
+    margin-bottom: 20px;
+    
+}
+
+/* 
+.iphone_city_btn{
+    background-color: #19223C;
+    color: #E5E5E5;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    margin-bottom: 10px;
+} */
+
+
+.iphone_city_btn{
+    background-color: #19223C;
+    color: #E5E5E5;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    margin-bottom: 10px;
+    position: relative;
+    left: -10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: large;
+}
+
+.a{
+    color: #19223C;
+}
+
+.button_center{
+    position: relative;
+    left: 20%;
+    margin-bottom: 20px;
+}
+
+.login_btn_holder{
+    position: relative;
+    left: 22%;
+}
+
+.order_btn_holder{
+    position: relative;
+    left: 18%;
+}
+
+.btn_content{
+    font-size: x-large;
+}
+.content_card{
+    border-radius: 15px;
+    background-color:#E5E5E5 ;
+    /* position: relative;
+    top: 60px;
+    margin-bottom: 30px; */
+    justify-content: center;
+    
+    
+}
+
+.position{
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+
+.content_holder{
+    position: relative;
+    top: 0px;
+    max-width: 100px;
+}
+
+.img_holder{
+    height: 300px;
+    max-width: 300px;
+}
+
+.img_holder2{
+    height: 200px;
+    max-width: 300px;
+}
+
+.centerd{
+    position: relative;
+}
+
+#signinModal{
+    background-color: #E5E5E5;
+}
+
+.modal-content{
+    background-color: #E5E5E5;
+}
+
+#order_btn:hover {
+    color: #F9AF0B;
+}
+
+#delete_btn:hover {
+    color: #F9AF0B;
+}
+
+#iphone_city_btn:hover {
+    color: #E5E5E5;
+}
+
+#signin_link:hover {
+    cursor: pointer;
+    color:#19223C;
+}
+
+/* body{
+    background-color: #63593D;
+} */
+
+.city_icons{
+    height: 40px;
+    width: 40px;
+}
+
+#message_panel{
+    display: block;
+
+}
+
+
+
+#order_message_1{
+    display: block;
+}
+
+#order_message_2{
+    display: none;
+}
+
+#body{
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #19223C;
+    /* background-image: url('/static/assets/apple.jpg'); */
+    overflow-y: auto; 
+    overflow-x: auto;
+}

@@ -1,0 +1,154 @@
+{% extends 'side_nav_base.html' %}
+
+{% block content %}
+<div class="container" style="position: relative; margin:auto; " >
+  
+  <!-- make both objects to act in pair -->
+  
+    
+    <!-- for small screen only -->
+    <div class="slideshow-container d-block">
+      <div class="mySlides "  style="background-image: none;" >
+        <div class="d-md-none d-sm-block">
+          <img class="img" src="{{ url_for('static', filename='assets/iphones.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+          <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Stay up to date with iphones and all the latest products from Apple Inc.</div>
+        </div>
+        <div class="d-none d-md-block">
+          <img class="img" src="{{ url_for('static', filename='assets/iphone.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+        <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Experience proffessional product care for all your Apple devices. </div>
+        </div>
+      </div>
+      
+      <div class="mySlides " style="">
+        
+        <div class="d-sm-block d-md-none">
+          <img class="img" src="{{ url_for('static', filename='assets/iphone_repair1.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+          <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Experience proffessional product care for all your Apple devices. </div>
+        </div>
+        <div class="d-none d-md-block">
+          <img class="img" src="{{ url_for('static', filename='assets/iphone_repair3.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+          <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Experience proffessional product care for all your Apple devices. </div>
+        </div>
+      </div>
+      
+      <div class="mySlides " style="">
+        
+        <div class="d-sm-block d-md-none">
+          <img class="img" src="{{ url_for('static', filename='assets/iphone_exchange.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+          <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Conviniently swap your apple product for another, easily.  </div>
+        </div>
+        <div class="d-none d-md-block">
+          <img class="img" src="{{ url_for('static', filename='assets/iphone-trade-in.jpg') }}"  alt="..." style="width:100%; border-radius: 7px; max-height: 320px;">
+          <div class="text" style="font-size: large; background-color:transparent; border-bottom: 10px; ">Conviniently swap your apple product for another, easily.  </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- end of slide shows -->
+ 
+  <div class="after-container">
+    <div class="flash_board" style="display: none;" onclick="next_board()">
+      <div class="row">
+        <div class="col-8">
+          <h4 class="type_label">Quick Delivery</h4>
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-send" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+    <div class="flash_board" style="display: none;" onclick="next_board()">
+      <div class="row">
+        <div class="col-8">
+          <h4 class="type_label">Secure Payment</h4>
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-lock" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+    <div class="flash_board" style="display: none;" onclick="next_board()">
+      <div class="row">
+        <div class="col-8">
+          <h4 class="type_label">Available Support</h4>
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-heart" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+  </div>
+  <br>
+  <div class="after-container2">
+      
+    <div class="product_type" onclick="switch_page('accessories')">
+      <div class="row">
+        <div class="col-8">
+          <label for="" class="type_label">Accessories</label>
+          
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-arrow-right" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+
+    <div class="product_type" onclick="switch_page('iphones')">
+      <div class="row">
+        <div class="col-8">
+          <label for="" class="type_label">iPhone</label>
+          
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-arrow-right" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+
+    <div class="product_type" onclick="switch_page('ipads')">
+      <div class="row">
+        <div class="col-8">
+          <label for="" class="type_label">iPad</label>
+          
+        </div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-arrow-right" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+     
+    <div class="product_type" onclick="switch_page('laptops')">
+      <div class="row">
+        <div class="col-8">
+          <label for="" class="type_label">MacBook</label></div>
+        <div class="col-4">
+          <span class="type_label">
+            <i class="fa fa-arrow-right" style="font-weight: bolder;"></i>
+          </span>
+        </div>
+     </div>
+    </div>
+     
+  </div>
+    <div class="stool">
+      
+    </div>
+  
+  
+</div>
+
+
+
+{% endblock content %}
