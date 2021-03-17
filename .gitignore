@@ -1,0 +1,10 @@
+server_env/*
+
+static/product_images/*
+static/repair_images/*
+static/tradein_images/*
+
+data.sqlite
+
+
+
