@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5023
 
 # run the command
-CMD ["python", "./backend.py",  "sqlite"]
+CMD ["python", "./run.py"]
