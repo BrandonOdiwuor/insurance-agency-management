@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% include 'login_navbar.html' %}
+{% block page %}
+<div class="columns" style="margin-top: 2em;">
+  <div class="column">
+    <nav class="menu">
+      <!-- <p class="menu-label">Menu</p> -->
+      <ul class="menu-list">
+        <li>
+          <a href="/admin">
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="is-active" href="/customers">
+            Customers
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Invoices
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Payments
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Policies
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column is-three-quarters">
+    <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+            <a href="/new-customer" class="button">
+                <span class="icon">
+                    <i class="fa fa-user-plus"></i> 
+                </span>
+                <span>New Customer</span>
+            </a>
+        </div>
+    </div>
+    <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for customer in customers %}
+         <tr>
+           <td>{{ customer.f_name }}</td>
+           <td>{{ customer.l_name }}</td>
+           <td>{{ customer.phone }}</td>
+           <td>{{ customer.email }}</td>
+           <td><a href="#" class="button">View</a></td>
+         </tr>
+         {% endfor %}
+        </tbody>
+      </table>
+  </div>
+</div>
+{% endblock page %}

@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% include 'login_navbar.html' %}
+{% block page %}
+<div class="columns" style="margin-top: 2em;">
+  <div class="column">
+    <nav class="menu">
+      <!-- <p class="menu-label">Menu</p> -->
+      <ul class="menu-list">
+        <li>
+          <a href="/admin">
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="is-active" href="/customers">
+            Customers
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Invoices
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Payments
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Policies
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column is-three-quarters">
+    <div class="box">
+        {% for message in errors %} 
+            <div>{{ message }}</div>
+        {% endfor %}
+        <form method="POST" action="/new-customer/">
+            {{ form.csrf_token }}
+            {{ form.first_name(size=20, placeholder="First Name", class="input", style="margin-top:1em;") }}
+            {{ form.last_name(size=20, placeholder="Last Name", class="input", style="margin-top:1em;") }}
+            {{ form.email(size=20, placeholder="Email", class="input", style="margin-top:1em;") }}
+            {{ form.mobile_phone(size=20, placeholder="Telephone", class="input", style="margin-top:1em;") }}
+            {{ form.id_no(size=20, placeholder="ID Number", class="input", style="margin-top:1em;") }}
+            <button type="submit" name="submit" class="button is-fullwidth" style="margin-top:1em;">
+                Create Customer
+            </button>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock page %}

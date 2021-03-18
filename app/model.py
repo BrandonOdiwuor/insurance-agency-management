@@ -1,7 +1,7 @@
 from enum import Enum
-from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
-from datetime import timedelta 
+from app import db, JWT_SECRET_KEY, JWT_TOKEN_LIFE_IN_SECONDS
+from datetime import datetime, timedelta
+import jwt
 
 class Base(db.Model):
     __abstract__ = True
@@ -44,6 +44,23 @@ class User(Base):
     password_hash = db.Column(db.String(200), nullable=False)
     user_type = db.Column(db.String(20))
     phone = db.Column(db.String(9), unique=True, nullable=False)
+
+
+    def token(self):
+        generated = datetime.now()
+        expiry = datetime.now() + timedelta(seconds=JWT_TOKEN_LIFE_IN_SECONDS)
+
+        token = jwt.encode(
+            {
+                "uid": str(self.id),
+                "exp": int(expiry.strftime("%s")),
+                "iat": int(generated.strftime("%s")),
+            },
+            JWT_SECRET_KEY,
+            algorithm="HS256",
+        )
+
+        return token
 
     def __repr__(self):
         return '<User %r>' % (self.email) 

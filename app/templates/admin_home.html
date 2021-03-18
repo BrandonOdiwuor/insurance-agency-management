@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% include 'login_navbar.html' %}
+{% block page %}
+<div class="columns" style="margin-top: 2em;">
+  <div class="column">
+    <nav class="menu">
+      <!-- <p class="menu-label">Menu</p> -->
+      <ul class="menu-list">
+        <li>
+          <a class="is-active" href="/admin">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/customers">
+            Customers
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Invoices
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Payments
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Policies
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column is-three-quarters">
+    <h1 class="title">
+      # Admin home
+    </h1>
+  </div>
+</div>
+{% endblock page %}

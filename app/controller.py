@@ -1,4 +1,5 @@
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.model import User, Customer, CustomerStatus, Invoice, \
     InvoiceStatus, Payment, Policy, Quotation, SaleItem
 
@@ -67,6 +68,9 @@ def verify_customer(email, password):
 
 def get_customer(customer_id):
     return Customer.query.filter_by(id=customer_id).first()
+
+def get_customers():
+    return Customer.query.all()
 
 def activate_customer(customer_id):
     customer = Customer.query.filter_by(id=customer_id).first()
