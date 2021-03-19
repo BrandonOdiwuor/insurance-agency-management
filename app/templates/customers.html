@@ -1,57 +1,59 @@
 {% extends "layout.html" %} {% include 'partials/login_navbar.html' %} {% block page %}
-<div class="columns" style="margin-top: 2em">
-  <div class="column">
-    {% include 'partials/sidenav.html' %}
-  </div>
-  <div class="column is-three-quarters">
-    <div class="level">
-      <div class="level-left"></div>
-      <div class="level-right">
-        <a href="/new-customer" class="button">
-          <span class="icon">
-            <i class="fa fa-user-plus"></i>
-          </span>
-          <span>New Customer</span>
-        </a>
-      </div>
+<div class="container is-fluid">
+  <div class="columns" style="margin-top: 2em">
+    <div class="column">
+      {% include 'partials/sidenav.html' %}
     </div>
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Telephone</th>
-          <th>Email</th>
-          <th colspan="2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for customer in customers %}
-        <tr>
-          <td>{{ customer.f_name }}</td>
-          <td>{{ customer.l_name }}</td>
-          <td>{{ '254%s' % customer.phone }}</td>
-          <td>{{ customer.email }}</td>
-          <td><a href="#" class="button">View</a></td>
-          <td>
-            {% if customer.is_active() %}
-            <a
-              href="{{'/update-customer-status/%s' % customer.id }}"
-              class="button is-danger"
-              >Deactivate</a
-            >
-            {% else %}
-            <a
-              href="{{'/update-customer-status/%s' % customer.id }}"
-              class="button"
-              >Activate</a
-            >
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="column is-three-quarters">
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <a href="/new-customer" class="button">
+            <span class="icon">
+              <i class="fa fa-user-plus"></i>
+            </span>
+            <span>New Customer</span>
+          </a>
+        </div>
+      </div>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th colspan="2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customer in customers %}
+          <tr>
+            <td>{{ customer.f_name }}</td>
+            <td>{{ customer.l_name }}</td>
+            <td>{{ '254%s' % customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+            <td><a href="#" class="button">View</a></td>
+            <td>
+              {% if customer.is_active() %}
+              <a
+                href="{{'/update-customer-status/%s' % customer.id }}"
+                class="button is-danger"
+                >Deactivate</a
+              >
+              {% else %}
+              <a
+                href="{{'/update-customer-status/%s' % customer.id }}"
+                class="button"
+                >Activate</a
+              >
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {% endblock page %}

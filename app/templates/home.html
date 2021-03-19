@@ -1,11 +1,46 @@
 {% extends "layout.html" %}
-{% include 'partials/logout_navbar.html' %}
 {% block page %}
-<section class="section">
+<!-- <section class="section">
   <div class="container">
     <h1 class="title">
       # Home Page
     </h1>
   </div>
+</section> -->
+
+<section class="hero is-fullheight">
+  <div class="hero-head">
+    {% include 'partials/logout_navbar.html' %}
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">
+        Title
+      </p>
+      <p class="subtitle">
+        Subtitle
+      </p>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+          <li class="is-active">
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>About Us</a>
+          </li>
+          <li>
+            <a>Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </section>
+
 {% endblock page %}
