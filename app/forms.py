@@ -1,15 +1,18 @@
-from flask_wtf import FlaskForm # , RecaptchaField
+from flask_wtf import FlaskForm  # , RecaptchaField
 
-from wtforms import SubmitField, TextField, PasswordField, StringField, validators
+from wtforms import SubmitField, TextField, PasswordField, \
+    StringField, DecimalField, validators
 
 from wtforms.validators import Required, Email, EqualTo
 
+
 class LoginForm(FlaskForm):
     email = StringField('Email Address', [
-        validators.DataRequired(), 
-        validators.Email(), 
+        validators.DataRequired(),
+        validators.Email(),
         validators.Length(min=6, max=35)])
     password = PasswordField('Password', [validators.DataRequired()])
+
 
 class NewCustomerForm(FlaskForm):
     first_name = StringField('First Name', [
@@ -17,12 +20,22 @@ class NewCustomerForm(FlaskForm):
     last_name = StringField('Last Name', [
         validators.DataRequired()])
     email = StringField('Email Address', [
-        validators.DataRequired(), 
-        validators.Email(), 
+        validators.DataRequired(),
+        validators.Email(),
         validators.Length(min=6, max=35)])
     mobile_phone = StringField('Telephone', [
-        validators.DataRequired(), 
+        validators.DataRequired(),
         validators.Length(min=9, max=9)])
     id_no = StringField('ID Number', [
-        validators.DataRequired(), 
+        validators.DataRequired(),
         validators.Length(min=8, max=8)])
+
+
+class SaleItemForm(FlaskForm):
+    name = StringField('Name', [
+        validators.DataRequired()])
+    category = StringField('Category', [
+        validators.DataRequired(),
+        validators.Length(max=10)
+    ])
+    price = DecimalField('Price', [validators.DataRequired()])

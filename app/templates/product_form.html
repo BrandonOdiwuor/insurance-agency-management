@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% include 'partials/login_navbar.html' %}
+{% block page %}
+<div class="columns" style="margin-top: 2em;">
+  <div class="column">
+    {% include 'partials/sidenav.html' %}
+  </div>
+  <div class="column is-three-quarters">
+    <div class="box">
+        {% for message in errors %} 
+            <div>{{ message }}</div>
+        {% endfor %}
+        <form method="POST" action="/new-product/">
+            {{ form.csrf_token }}
+            {{ form.name(size=20, placeholder="Name", class="input", style="margin-top:1em;") }}
+            {{ form.category(size=10, placeholder="Product Category", class="input", style="margin-top:1em;") }}
+            {{ form.price(size=20, placeholder="Price", class="input", style="margin-top:1em;") }}
+            <button type="submit" name="submit" class="button is-fullwidth" style="margin-top:1em;">
+                Create Product
+            </button>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock page %}

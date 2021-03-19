@@ -1,9 +1,9 @@
 # Statement for enabling the development environment
+import os
 DEBUG = True
 
 # Define the application directory
-import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Define the database - we are working with
 # SQLite for this example
@@ -18,19 +18,14 @@ DATABASE_CONNECT_OPTIONS = {}
 THREADS_PER_PAGE = 2
 
 # Enable protection agains *Cross-site Request Forgery (CSRF)*
-CSRF_ENABLED     = True
+CSRF_ENABLED = True
 
 # Use a secure, unique and absolutely secret key for
-# signing the data. 
-CSRF_SESSION_KEY = "secret"
+# signing the data.
+CSRF_SESSION_KEY = b'<(\xf2\x90\xae\xce\x97\xb6S\x93\xe59.{\x0b\xed'
 
 # Secret key for signing cookies
-SECRET_KEY = "secret"
-
-
-
-
-
+SECRET_KEY = b'\xe4>b\xb0U0e\x90\xb1\x81\xa3,\x12\x18I\xb1'
 
 
 # argument_list = sys.argv

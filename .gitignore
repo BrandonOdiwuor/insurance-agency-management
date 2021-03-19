@@ -1,10 +1,26 @@
-server_env/*
+.DS_Store
+.env
+.flaskenv
+venv/
+**__pycache__
+*.pyc
+*.pyo
+env/
+env*
+dist/
+build/
+*.egg
+*.egg-info/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+.vscode
 
-static/product_images/*
-static/repair_images/*
-static/tradein_images/*
-
-data.sqlite
-
-
-
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover

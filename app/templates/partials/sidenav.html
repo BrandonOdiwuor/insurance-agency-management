@@ -1,0 +1,31 @@
+<nav class="menu">
+  <ul class="menu-list">
+    <li>
+      <a 
+        href="/admin" 
+        {% if request.path == '/admin/' %} class="is-active"{% endif %}
+      > Home </a>
+    </li>
+    <li>
+      <a 
+        href="/customers"
+        {% if request.path == '/customers/' %} class="is-active"{% endif %}
+      > Customers </a>
+    </li>
+    <li>
+      <a 
+        href="/products"
+        {% if request.path == '/products/' %} class="is-active"{% endif %}
+      > Products </a>
+    </li>
+    <li>
+      <a href="#"> Invoices </a>
+    </li>
+    <li>
+      <a href="#"> Payments </a>
+    </li>
+    <li>
+      <a href="#"> Policies </a>
+    </li>
+  </ul>
+</nav>

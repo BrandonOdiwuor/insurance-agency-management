@@ -1,11 +1,13 @@
 import functools
 from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for
-from app.forms import LoginForm, NewCustomerForm
-from app.controller import verify_user, create_customer, get_customers
+    flash, g, session, redirect, url_for
+from app.forms import LoginForm, NewCustomerForm, SaleItemForm
+from app.controllers import verify_user, verify_customer, create_customer, \
+    get_customers, update_customer_status, get_items_of_sale, create_item_of_sale
 from utils.utils import decode_token
 
 mod_app = Blueprint('app', __name__, url_prefix='/')
+
 
 def login_required(view):
     @functools.wraps(view)
@@ -38,6 +40,7 @@ def signin():
 
     return render_template("signin.html", form=form)
 
+
 @mod_app.route('customer/signin/', methods=['GET', 'POST'])
 def customer_signin():
 
@@ -59,25 +62,31 @@ def customer_signin():
 
     return render_template("signin.html", form=form)
 
+
 @mod_app.route('/signout')
 def logout():
     session.clear()
     return redirect(url_for('app.home'))
 
+
 @mod_app.route('/', methods=['GET'])
 def home():
     return render_template("home.html")
 
+
 @mod_app.route('/admin/', methods=['GET'])
 @login_required
 def admin_home():
+    print("path", request.path)
     return render_template("admin_home.html")
+
 
 @mod_app.route('/customers/', methods=['GET'])
 @login_required
 def customers():
     customers = get_customers()
     return render_template("customers.html", customers=customers)
+
 
 @mod_app.route('/new-customer/', methods=['GET', 'POST'])
 @login_required
@@ -93,6 +102,34 @@ def new_customer():
             'email': form.email.data,
             'password': 'pass@123'
         }
-        customer = create_customer(customer_payload)
+        create_customer(customer_payload)
         return redirect(url_for('app.customers'))
-    return render_template("new_customer.html", form=form)
+    return render_template("customer_form.html", form=form)
+
+
+@mod_app.route('/update-customer-status/<int:customer_id>', methods=['GET'])
+@login_required
+def v_update_customer_status(customer_id):
+    update_customer_status(customer_id)
+    return redirect(url_for('app.customers'))
+
+@mod_app.route('/products/', methods=['GET'])
+@login_required
+def products():
+    products = get_items_of_sale()
+    return render_template("products.html", products=products)
+
+@mod_app.route('/new-product/', methods=['GET', 'POST'])
+@login_required
+def new_product():
+    form = SaleItemForm(request.form)
+
+    if form.validate_on_submit():
+        sale_item_payload = {
+            'name': form.name.data,
+            'category': form.category.data,
+            'price': form.price.data
+        }
+        create_item_of_sale(sale_item_payload)
+        return redirect(url_for('app.products'))
+    return render_template("product_form.html", form=form)
