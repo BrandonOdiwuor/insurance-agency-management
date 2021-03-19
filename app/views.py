@@ -3,7 +3,8 @@ from flask import Blueprint, request, render_template, \
     flash, g, session, redirect, url_for
 from app.forms import LoginForm, NewCustomerForm, SaleItemForm
 from app.controllers import verify_user, verify_customer, create_customer, \
-    get_customers, update_customer_status, get_items_of_sale, create_item_of_sale
+    get_customers, update_customer_status, get_items_of_sale, create_item_of_sale, \
+    get_invoices
 from utils.utils import decode_token
 
 mod_app = Blueprint('app', __name__, url_prefix='/')
@@ -133,3 +134,24 @@ def new_product():
         create_item_of_sale(sale_item_payload)
         return redirect(url_for('app.products'))
     return render_template("forms/product.html", form=form)
+
+@mod_app.route('/invoices/', methods=['GET'])
+@login_required
+def invoices():
+    invoices = get_invoices()
+    return render_template("invoices.html", invoices=invoices)
+
+@mod_app.route('/new-invoice/', methods=['GET', 'POST'])
+@login_required
+def new_invoice():
+    form = SaleItemForm(request.form)
+
+    # if form.validate_on_submit():
+    #     sale_item_payload = {
+    #         'name': form.name.data,
+    #         'category': form.category.data,
+    #         'price': form.price.data
+    #     }
+    #     create_item_of_sale(sale_item_payload)
+    #     return redirect(url_for('app.products'))
+    return render_template("forms/invoice.html", form=form)

@@ -129,6 +129,9 @@ def update_invoice_status(invoice_id, status):
 def get_invoice(invoice_id):
     return Invoice.query.filter_by(id=invoice_id).first()
 
+def get_invoices():
+    return Invoice.query.all()
+
 
 def create_payment(payment_payload):
     new_payment = Payment(

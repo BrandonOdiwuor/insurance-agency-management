@@ -19,7 +19,10 @@
       > Products </a>
     </li>
     <li>
-      <a href="#"> Invoices </a>
+      <a 
+        href="/invoices"
+        {% if request.path == '/invoices/' %} class="is-active"{% endif %}
+      > Invoices </a>
     </li>
     <li>
       <a href="#"> Payments </a>
