@@ -1,0 +1,54 @@
+{% extends "layout.html" %} {% include 'partials/login_navbar.html' %} {% block
+page %}
+<div class="columns" style="margin-top: 2em">
+  <div class="column">{% include 'partials/sidenav.html' %}</div>
+  <div class="column is-three-quarters">
+    <div class="box">
+      {% for message in errors %}
+      <div>{{ message }}</div>
+      {% endfor %}
+      <form method="POST" action="/new-customer/">
+        {{ form.csrf_token }}
+        {{ 
+          form.first_name(
+            size=20, 
+            placeholder="First Name", 
+            class="input", 
+            style="margin-top:1em;"
+        )}}
+        {{
+          form.last_name(
+            size=20, 
+            placeholder="Last Name", 
+            class="input",
+             style="margin-top:1em;"
+        )}}
+        {{
+          form.email(
+            size=20,
+            placeholder="Email", 
+            class="input", 
+            style="margin-top:1em;"
+        )}}
+        {{
+            form.mobile_phone(
+              size=20, 
+              placeholder="Telephone", 
+              class="input",
+              style="margin-top:1em;"
+        ) }} 
+        {{ 
+            form.id_no(
+              size=20, 
+              placeholder="ID Number", 
+              class="input", 
+              style="margin-top:1em;") 
+          }}
+        <button type="submit" name="submit" class="button is-fullwidth" style="margin-top: 1em">
+          Create Customer
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock page %}

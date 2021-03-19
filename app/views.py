@@ -38,7 +38,7 @@ def signin():
 
         flash('Wrong email or password', 'error-message')
 
-    return render_template("signin.html", form=form)
+    return render_template("forms/signin.html", form=form)
 
 
 @mod_app.route('customer/signin/', methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def customer_signin():
 
         flash('Wrong email or password', 'error-message')
 
-    return render_template("signin.html", form=form)
+    return render_template("forms/signin.html", form=form)
 
 
 @mod_app.route('/signout')
@@ -78,7 +78,7 @@ def home():
 @login_required
 def admin_home():
     print("path", request.path)
-    return render_template("admin_home.html")
+    return render_template("admin.html")
 
 
 @mod_app.route('/customers/', methods=['GET'])
@@ -104,7 +104,7 @@ def new_customer():
         }
         create_customer(customer_payload)
         return redirect(url_for('app.customers'))
-    return render_template("customer_form.html", form=form)
+    return render_template("forms/customer.html", form=form)
 
 
 @mod_app.route('/update-customer-status/<int:customer_id>', methods=['GET'])
@@ -132,4 +132,4 @@ def new_product():
         }
         create_item_of_sale(sale_item_payload)
         return redirect(url_for('app.products'))
-    return render_template("product_form.html", form=form)
+    return render_template("forms/product.html", form=form)

@@ -1,0 +1,27 @@
+{% extends "layout.html" %} {% block page %}
+
+<div class="box" style="width: 40%; margin: auto; margin-top: 5em">
+  <div class="has-text-centered is-size-4 has-text-weight-bold">
+    <span>Granate</span>
+  </div>
+  {% for message in errors %}
+  <div>{{ message }}</div>
+  {% endfor %}
+  <form method="POST" action="." accept-charset="UTF-8" role="form">
+    {{ form.csrf_token }} {{ form.email(size=20, placeholder="Email",
+    class="input", style="margin-top:1em;") }} {{
+    form.password(placeholder="Password", class="input",
+    style="margin-top:1em;") }}
+    <div style="margin-top: 1em">
+      <label>
+        <input type="checkbox" name="remember" value="1" /> Remember Me
+      </label>
+      <a role="button" href="">Forgot your password?</a
+      ><span class="clearfix"></span>
+    </div>
+    <button type="submit" name="submit" class="button is-fullwidth">
+      Sign in
+    </button>
+  </form>
+</div>
+{% endblock page %}
