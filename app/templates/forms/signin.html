@@ -1,25 +1,29 @@
 {% extends "layout.html" %} {% block page %}
 
-<div class="box" style="width: 40%; margin: auto; margin-top: 5em">
+<div class="box sign-in-box">
   <div class="has-text-centered is-size-4 has-text-weight-bold">
-    <span>Granate</span>
+    <span class="has-text-primary">Granate</span>
   </div>
   {% for message in errors %}
   <div>{{ message }}</div>
   {% endfor %}
   <form method="POST" action="." accept-charset="UTF-8" role="form">
     {{ form.csrf_token }} {{ form.email(size=20, placeholder="Email",
-    class="input", style="margin-top:1em;") }} {{
-    form.password(placeholder="Password", class="input",
-    style="margin-top:1em;") }}
-    <div style="margin-top: 1em">
-      <label>
-        <input type="checkbox" name="remember" value="1" /> Remember Me
-      </label>
-      <a role="button" href="">Forgot your password?</a
-      ><span class="clearfix"></span>
+    class="input mt-4") }} {{
+    form.password(placeholder="Password", class="input mt-4") }}
+    <div class="level mt-4">
+      <div class="level-left">
+        <label>
+          <input type="checkbox" name="remember" value="1" /> Remember Me
+        </label>
+      </div>
+      <div class="level-right">
+        <a role="button" href="">
+          <span class="has-text-primary"> Forgot your password?</span>
+        </a>
+      </div>
     </div>
-    <button type="submit" name="submit" class="button is-fullwidth">
+    <button type="submit" name="submit" class="button is-fullwidth is-primary">
       Sign in
     </button>
   </form>

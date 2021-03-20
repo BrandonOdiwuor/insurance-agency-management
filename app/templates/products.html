@@ -7,7 +7,7 @@ page %}
       <div class="level">
         <div class="level-left"></div>
         <div class="level-right">
-          <a href="/new-product" class="button">
+          <a href="/new-product" class="button is-primary">
             <span class="icon">
               <i class="fa fa-plus"></i>
             </span>
@@ -30,9 +30,9 @@ page %}
             <td>{{ product.name }}</td>
             <td>{{ product.category }}</td>
             <td>{{ product.price }}</td>
-            <td><a href="#" class="button">View</a></td>
-            <td><a href="#" class="button">Edit</a></td>
-            <td><a href="#" class="button is-danger">Delete</a></td>
+            <td><a href="#" class="button is-primary is-outlined">View</a></td>
+            <td><a href="#" class="button is-link is-outlined">Edit</a></td>
+            <td><a href="#" class="button is-danger is-light">Delete</a></td>
           </tr>
           {% endfor %}
         </tbody>

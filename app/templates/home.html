@@ -1,41 +1,48 @@
 {% extends "layout.html" %}
 {% block page %}
-<!-- <section class="section">
-  <div class="container">
-    <h1 class="title">
-      # Home Page
-    </h1>
-  </div>
-</section> -->
-
 <section class="hero is-fullheight">
   <div class="hero-head">
     {% include 'partials/logout_navbar.html' %}
   </div>
 
   <div class="hero-body">
-    <div class="container has-text-centered">
-      <p class="title">
-        Title
+    <div>
+      <p class="title" >
+        <span class="has-text-primary">Insurance made simple</span>
       </p>
-      <p class="subtitle">
-        Subtitle
+      <p class="subtitle" >
+        <span>
+          Management of Customers, Quotes, Policies, <br>
+          Claims & Payments made simple
+        </span>
       </p>
+      <div class="field has-addons">
+        <div class="control has-icons-left has-icons-right">
+          <input class="input" type="email" placeholder="Email">
+          <span class="icon is-left">
+            <i class="fa fa-envelope"></i>
+          </span>
+        </div>
+        <div class="control">
+          <a class="button is-primary">
+            Get Quote
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-
   <div class="hero-foot">
     <nav class="tabs is-boxed is-fullwidth">
       <div class="container">
         <ul>
           <li class="is-active">
-            <a>Overview</a>
+            <a class="has-text-primary">Home</a>
           </li>
           <li>
-            <a>About Us</a>
+            <a class="has-text-primary">About Us</a>
           </li>
           <li>
-            <a>Contact Us</a>
+            <a class="has-text-primary">Contact Us</a>
           </li>
         </ul>
       </div>

@@ -8,7 +8,7 @@
       <div class="level">
         <div class="level-left"></div>
         <div class="level-right">
-          <a href="/new-customer" class="button">
+          <a href="/new-customer" class="button is-primary">
             <span class="icon">
               <i class="fa fa-user-plus"></i>
             </span>
@@ -33,18 +33,18 @@
             <td>{{ customer.l_name }}</td>
             <td>{{ '254%s' % customer.phone }}</td>
             <td>{{ customer.email }}</td>
-            <td><a href="#" class="button">View</a></td>
+            <td><a href="#" class="button is-link is-outlined">View</a></td>
             <td>
               {% if customer.is_active() %}
               <a
                 href="{{'/update-customer-status/%s' % customer.id }}"
-                class="button is-danger"
+                class="button is-danger is-light"
                 >Deactivate</a
               >
               {% else %}
               <a
                 href="{{'/update-customer-status/%s' % customer.id }}"
-                class="button"
+                class="button is-primary is-outlined"
                 >Activate</a
               >
               {% endif %}
