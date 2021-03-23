@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from settings import app_config
 from os import environ
 
@@ -12,6 +13,8 @@ def create_app(config_name):
 
     # Select appropriate Configuration
     app.config.from_object(app_config[config_name])
+
+    _ = Migrate(app, db)
 
     # Register Blueprints
     from .admin import admin as admin_blueprint
