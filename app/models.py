@@ -1,6 +1,8 @@
-from app import db, JWT_SECRET_KEY, JWT_TOKEN_LIFE_IN_SECONDS
+from os import environ
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
+from app import db
 from utils.enums import CustomerStatus, InvoiceStatus
 
 
@@ -24,6 +26,26 @@ class Customer(Base):
     status = db.Column(db.Enum(CustomerStatus), nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
 
+    @property
+    def password(self):
+        """
+        Prevent pasword from being accessed
+        """
+        raise AttributeError('password is not a readable attribute.')
+
+    @password.setter
+    def password(self, password):
+        """
+        Set password to a hashed password
+        """
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        """
+        Check if hashed password matches actual password
+        """
+        return check_password_hash(self.password_hash, password)
+
     def __repr__(self):
         return '<Customer %r>' % (self.email)
 
@@ -44,7 +66,7 @@ class User(Base):
 
     def token(self):
         generated = datetime.now()
-        expiry = datetime.now() + timedelta(seconds=JWT_TOKEN_LIFE_IN_SECONDS)
+        expiry = datetime.now() + timedelta(seconds=int(environ.get('JWT_TOKEN_LIFE_IN_SECONDS')))
 
         token = jwt.encode(
             {
@@ -52,11 +74,31 @@ class User(Base):
                 "exp": int(expiry.strftime("%s")),
                 "iat": int(generated.strftime("%s")),
             },
-            JWT_SECRET_KEY,
+            environ.get('JWT_SECRET_KEY'),
             algorithm="HS256",
         )
 
         return token
+
+    @property
+    def password(self):
+        """
+        Prevent pasword from being accessed
+        """
+        raise AttributeError('password is not a readable attribute.')
+
+    @password.setter
+    def password(self, password):
+        """
+        Set password to a hashed password
+        """
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        """
+        Check if hashed password matches actual password
+        """
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return '<User %r>' % (self.email)
