@@ -1,5 +1,4 @@
 from app import db
-from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User, Customer, CustomerStatus, Invoice, \
     InvoiceStatus, Payment, Policy, Quotation, SaleItem
 from utils.enums import CustomerStatus
@@ -8,7 +7,7 @@ from utils.enums import CustomerStatus
 def create_user(user_payload):
     new_user = User(
         email=user_payload['email'],
-        password_hash=generate_password_hash(user_payload['password']),
+        password=user_payload['password'],
         phone=user_payload['phone'],
         f_name=user_payload['first_name'],
         l_name=user_payload['last_name']
@@ -24,7 +23,7 @@ def create_user(user_payload):
 def verify_user(email, password):
     user = User.query.filter_by(email=email).first()
 
-    if user and check_password_hash(user.password_hash, password):
+    if user and user.verify_password(password):
         return user
 
     return False
@@ -56,7 +55,7 @@ def create_customer(customer_payload):
         id_no=customer_payload['id_no'],
         phone=customer_payload['phone'],
         email=customer_payload['email'],
-        password_hash=generate_password_hash(customer_payload['password']),
+        password=customer_payload['password'],
         status=CustomerStatus.INACTIVE
     )
 
@@ -71,7 +70,7 @@ def create_customer(customer_payload):
 def verify_customer(email, password):
     customer = Customer.query.filter_by(email=email).first()
 
-    if customer and check_password_hash(customer.password_hash, password):
+    if customer and customer.verify_password(password):
         return customer
 
     return False
@@ -83,6 +82,14 @@ def get_customers():
 
 def get_customer(customer_id):
     return Customer.query.filter_by(id=customer_id).first()
+
+
+def validate_customer_email(email):
+    return Customer.query.filter_by(email=email).first()
+
+
+def validate_customer_telephone(telephone):
+    return Customer.query.filter_by(phone=telephone).first()
 
 
 def update_customer_status(customer_id):
@@ -128,6 +135,7 @@ def update_invoice_status(invoice_id, status):
 
 def get_invoice(invoice_id):
     return Invoice.query.filter_by(id=invoice_id).first()
+
 
 def get_invoices():
     return Invoice.query.all()
