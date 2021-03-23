@@ -1,43 +1,47 @@
-<nav class="menu">
-  <ul class="menu-list">
-    <li>
-      <a 
-        href="/dashboard" 
-        {% if request.path == '/dashboard' %} class="is-active"{% endif %}
-      > Home </a>
-    </li>
-    <li>
-      <a 
-        href="/customers"
-        {% if request.path == '/customers' %} class="is-active"{% endif %}
-      > Customers </a>
-    </li>
-    <li>
-      <a 
-        href="/quotations"
-        {% if request.path == '/quotations' %} class="is-active"{% endif %}
-      > Quotations </a>
-    </li>
-    <li>
-      <a 
-        href="/invoices"
-        {% if request.path == '/invoices' %} class="is-active"{% endif %}
-      > Invoices </a>
-    </li>
-    <li>
-      <a 
-        href="/payments"
-        {% if request.path == '/payments' %} class="is-active"{% endif %}
-      > Payments </a>
-    </li>
-    <li>
-      <a 
-        href="/products"
-        {% if request.path == '/products' %} class="is-active"{% endif %}
-      > Products </a>
-    </li>
-    <li>
-      <a href="#"> Covers </a>
-    </li>
-  </ul>
-</nav>
+<div class="box">
+  <nav class="menu">
+    <ul class="menu-list">
+      <li>
+        <a 
+          href="/dashboard" 
+          {% if request.path == '/dashboard' %} class="is-active"{% endif %}
+        > Home </a>
+      </li>
+      <li>
+        <a 
+          href="/customers"
+          {% if request.url_rule.endpoint == 'admin.customers' or 
+          request.url_rule.endpoint == 'auth.register_customer' or 
+            request.url_rule.endpoint == 'admin.customer' %} class="is-active"{% endif %}
+        > Customers </a>
+      </li>
+      <li>
+        <a 
+          href="/quotations"
+          {% if request.path == '/quotations' %} class="is-active"{% endif %}
+        > Quotations </a>
+      </li>
+      <li>
+        <a 
+          href="/invoices"
+          {% if request.path == '/invoices' %} class="is-active"{% endif %}
+        > Invoices </a>
+      </li>
+      <li>
+        <a 
+          href="/payments"
+          {% if request.path == '/payments' %} class="is-active"{% endif %}
+        > Payments </a>
+      </li>
+      <li>
+        <a 
+          href="/products"
+          {% if request.path == '/products' %} class="is-active"{% endif %}
+        > Products </a>
+      </li>
+      <li>
+        <a href="#"> Covers </a>
+      </li>
+    </ul>
+  </nav>  
+</div>

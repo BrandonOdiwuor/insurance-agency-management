@@ -23,6 +23,7 @@ def customers():
 @login_required
 def customer(customer_id):
     customer = get_customer(customer_id)
+    print(request.url_rule.endpoint)
     return render_template("admin/customer.html", customer=customer)
 
 
