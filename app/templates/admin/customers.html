@@ -33,7 +33,13 @@
             <td>{{ customer.l_name }}</td>
             <td>{{ '254%s' % customer.phone }}</td>
             <td>{{ customer.email }}</td>
-            <td><a href="#" class="button is-link is-outlined">View</a></td>
+            <td>
+              <a
+                href="{{'/customer/%s' % customer.id }}"
+                class="button is-link is-outlined"
+                >View</a
+              >
+            </td>
             <td>
               {% if customer.is_active() %}
               <a

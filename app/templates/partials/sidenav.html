@@ -14,9 +14,9 @@
     </li>
     <li>
       <a 
-        href="/products"
-        {% if request.path == '/products' %} class="is-active"{% endif %}
-      > Products </a>
+        href="/quotations"
+        {% if request.path == '/quotations' %} class="is-active"{% endif %}
+      > Quotations </a>
     </li>
     <li>
       <a 
@@ -25,10 +25,19 @@
       > Invoices </a>
     </li>
     <li>
-      <a href="#"> Payments </a>
+      <a 
+        href="/payments"
+        {% if request.path == '/payments' %} class="is-active"{% endif %}
+      > Payments </a>
     </li>
     <li>
-      <a href="#"> Policies </a>
+      <a 
+        href="/products"
+        {% if request.path == '/products' %} class="is-active"{% endif %}
+      > Products </a>
+    </li>
+    <li>
+      <a href="#"> Covers </a>
     </li>
   </ul>
 </nav>

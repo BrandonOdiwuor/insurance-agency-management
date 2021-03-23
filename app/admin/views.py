@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for
 from . import admin
 from app.utils.utils import login_required
-from app.controllers import get_customers, update_customer_status, \
-    get_items_of_sale, create_item_of_sale, get_invoices
+from app.controllers import get_customers, get_customer, \
+    update_customer_status, get_items_of_sale, create_item_of_sale, get_invoices
 from .forms import SaleItemForm
 
 
@@ -17,6 +17,13 @@ def dashboard():
 def customers():
     customers = get_customers()
     return render_template("admin/customers.html", customers=customers)
+
+
+@admin.route('/customer/<int:customer_id>', methods=['GET'])
+@login_required
+def customer(customer_id):
+    customer = get_customer(customer_id)
+    return render_template("admin/customer.html", customer=customer)
 
 
 @admin.route('/update-customer-status/<int:customer_id>', methods=['GET'])
@@ -70,3 +77,17 @@ def new_invoice():
     #     create_item_of_sale(sale_item_payload)
     #     return redirect(url_for('app.products'))
     return render_template("forms/invoice.html", form=form)
+
+
+@admin.route('/quotations', methods=['GET'])
+@login_required
+def quotations():
+    quotations = {}  # get_quotations()
+    return render_template("admin/quotations.html", quotations=quotations)
+
+
+@admin.route('/payments', methods=['GET'])
+@login_required
+def payments():
+    payments = {}  # get_payments()
+    return render_template("admin/payments.html", payments=payments)
