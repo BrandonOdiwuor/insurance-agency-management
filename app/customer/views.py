@@ -1,6 +1,6 @@
 from flask import render_template
 from . import customer
-from utils.utils import login_required
+from app.utils.utils import login_required
 
 
 @customer.route('/customer-dashboard', methods=['GET'])

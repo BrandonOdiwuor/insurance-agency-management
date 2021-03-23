@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from . import admin
-from utils.utils import login_required
+from app.utils.utils import login_required
 from app.controllers import get_customers, update_customer_status, \
     get_items_of_sale, create_item_of_sale, get_invoices
 from .forms import SaleItemForm

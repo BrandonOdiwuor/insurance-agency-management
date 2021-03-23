@@ -1,7 +1,7 @@
 from app import db
 from app.models import User, Customer, CustomerStatus, Invoice, \
     InvoiceStatus, Payment, Policy, Quotation, SaleItem
-from utils.enums import CustomerStatus
+from app.utils.enums import CustomerStatus
 
 
 def create_user(user_payload):

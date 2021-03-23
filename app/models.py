@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db
-from utils.enums import CustomerStatus, InvoiceStatus
+from app.utils.enums import CustomerStatus, InvoiceStatus
 
 
 class Base(db.Model):

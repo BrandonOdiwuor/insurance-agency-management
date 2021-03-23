@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, url_for, session
 from . import auth
 from .forms import LoginForm, CustomerRegistrationForm
 from app.controllers import create_customer, verify_user, verify_customer
-from utils.utils import login_required
+from app.utils.utils import login_required
 
 
 @auth.route('/register-customer', methods=['GET', 'POST'])
