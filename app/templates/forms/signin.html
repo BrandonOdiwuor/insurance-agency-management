@@ -7,7 +7,7 @@
   {% for message in errors %}
   <div>{{ message }}</div>
   {% endfor %}
-  <form method="POST" action="." accept-charset="UTF-8" role="form">
+  <form method="POST" action="/login" accept-charset="UTF-8" role="form">
     {{ form.csrf_token }} {{ form.email(size=20, placeholder="Email",
     class="input mt-4") }} {{
     form.password(placeholder="Password", class="input mt-4") }}
@@ -23,9 +23,9 @@
         </a>
       </div>
     </div>
-    <button type="submit" name="submit" class="button is-fullwidth is-primary">
-      Sign in
-    </button>
+    <div>
+      {{ form.submit(class="button is-fullwidth is-primary") }}
+    </div>
   </form>
 </div>
 {% endblock page %}

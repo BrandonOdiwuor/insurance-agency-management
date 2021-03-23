@@ -2,26 +2,26 @@
   <ul class="menu-list">
     <li>
       <a 
-        href="/admin" 
-        {% if request.path == '/admin/' %} class="is-active"{% endif %}
+        href="/dashboard" 
+        {% if request.path == '/dashboard' %} class="is-active"{% endif %}
       > Home </a>
     </li>
     <li>
       <a 
         href="/customers"
-        {% if request.path == '/customers/' %} class="is-active"{% endif %}
+        {% if request.path == '/customers' %} class="is-active"{% endif %}
       > Customers </a>
     </li>
     <li>
       <a 
         href="/products"
-        {% if request.path == '/products/' %} class="is-active"{% endif %}
+        {% if request.path == '/products' %} class="is-active"{% endif %}
       > Products </a>
     </li>
     <li>
       <a 
         href="/invoices"
-        {% if request.path == '/invoices/' %} class="is-active"{% endif %}
+        {% if request.path == '/invoices' %} class="is-active"{% endif %}
       > Invoices </a>
     </li>
     <li>

@@ -8,7 +8,7 @@ page %}
         {% for message in errors %}
         <div>{{ message }}</div>
         {% endfor %}
-        <form method="POST" action="/new-customer/">
+        <form method="POST" action="/register-customer">
           {{ form.csrf_token }}
           {{ 
             form.first_name(

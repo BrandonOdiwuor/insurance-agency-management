@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block page %}
+<section class="hero is-fullheight">
+  <div class="hero-head">
+    {% include 'partials/logout_navbar.html' %}
+  </div>
+
+  <div class="hero-body">
+    <div>
+      <p class="title" >
+        <span class="has-text-primary">About Us</span>
+      </p>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <div class="hero-foot">
+      <{% include 'partials/hero_footer.html' %}
+    </div>
+  </div>
+</section>
+
+{% endblock page %}
