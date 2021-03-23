@@ -1,4 +1,17 @@
-# Run a test server.
-from app import app
+from os import environ, path
+from dotenv import load_dotenv
+from app import create_app
 
-app.run(host='0.0.0.0', port=8080, debug=True)
+BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
+
+# Load the environmental variables
+load_dotenv(dotenv_path='.env')
+
+config_name = environ.get('FLASK_CONFIG')
+app = create_app(config_name)
+
+if __name__ == '__main__':
+    app.run(
+       host=environ.get('HOST'),
+       port=environ.get('PORT')
+    )

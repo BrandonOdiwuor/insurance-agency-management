@@ -1,24 +1,31 @@
 from flask import Flask, render_template
-
 from flask_sqlalchemy import SQLAlchemy
+from settings import app_config
+from os import environ
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-# Configurations
-app.config.from_object('config')
 
-JWT_SECRET_KEY = "\x95\xa7\xee?\xfb\xaa\x07\n(e\xb8\x03\xab"
-JWT_TOKEN_LIFE_IN_SECONDS = 2880
+def create_app(config_name):
+    app = Flask(__name__)
+    db.init_app(app)
 
-db = SQLAlchemy(app)
+    # Select appropriate Configuration
+    app.config.from_object(app_config[config_name])
 
-# Sample HTTP error handling
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('404.html'), 404
+    # Register Blueprints
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
-from app.views import mod_app as app_module
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
-app.register_blueprint(app_module)
+    from .home import home as home_blueprint
+    app.register_blueprint(home_blueprint)
 
-db.create_all()
+    from .customer import customer as customer_blueprint
+    app.register_blueprint(customer_blueprint)
+
+    # db.create_all()
+
+    return app
