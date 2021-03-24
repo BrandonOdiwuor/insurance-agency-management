@@ -23,7 +23,7 @@
             <th>Last Name</th>
             <th>Telephone</th>
             <th>Email</th>
-            <th colspan="2">Actions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,11 +36,15 @@
             <td>
               <a
                 href="{{'/customer/%s' % customer.id }}"
-                class="button is-link is-outlined"
-                >View</a
-              >
+                class="button is-link"
+                >
+                <span class="icon">
+                  <i class="fa fa-eye"></i>
+                </span>
+                <span>View</span>
+              </a>
             </td>
-            <td>
+            <!-- <td>
               {% if customer.is_active() %}
               <a
                 href="{{'/update-customer-status/%s' % customer.id }}"
@@ -54,7 +58,7 @@
                 >Activate</a
               >
               {% endif %}
-            </td>
+            </td> -->
           </tr>
           {% endfor %}
         </tbody>

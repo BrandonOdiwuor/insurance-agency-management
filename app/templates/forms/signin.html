@@ -1,5 +1,18 @@
 {% extends "layout.html" %} {% block page %}
-
+<nav
+  class="navbar container is-fluid is-boxed"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <span class="icon">
+        <i class="fa fa-arrow-left"></i>
+      </span>
+      <span>Back</span>
+    </a>
+  </div>
+</nav>
 <div class="box sign-in-box">
   <div class="has-text-centered is-size-4 has-text-weight-bold">
     <span class="has-text-primary">Granate</span>
@@ -13,8 +26,9 @@
     form.password(placeholder="Password", class="input mt-4") }}
     <div class="level mt-4">
       <div class="level-left">
-        <label>
-          <input type="checkbox" name="remember" value="1" /> Remember Me
+        <label class="checkbox">
+          <input type="checkbox" name="remember" value="1"/> 
+          Remember Me
         </label>
       </div>
       <div class="level-right">
