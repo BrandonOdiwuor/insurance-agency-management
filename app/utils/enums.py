@@ -5,7 +5,13 @@ class CustomerStatus(Enum):
     ACTIVE = "Active"
     INACTIVE = "InActive"
 
+
 class InvoiceStatus(Enum):
     ACTIVE = "Active"
     PAID = "Paid"
     OVERDUE = "Overdue"
+
+
+class PaymentModes(Enum):
+    CASH = "Cash"
+    M_PESA = "M-Pesa"
