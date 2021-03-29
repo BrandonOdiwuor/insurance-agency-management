@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db
-from app.utils.enums import CustomerStatus, InvoiceStatus
+from app.utils.enums import CustomerStatus, InvoiceStatus, PaymentModes
 
 
 class Base(db.Model):
@@ -25,6 +25,7 @@ class Customer(Base):
     phone = db.Column(db.String(9), unique=True, nullable=False)
     status = db.Column(db.Enum(CustomerStatus), nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    invoices = db.relationship('Invoice', backref='customer', lazy=True)
 
     @property
     def password(self):
@@ -128,8 +129,8 @@ class Invoice(Base):
         'customers.id'), nullable=False)
     price = db.Column(db.Float, nullable=False)
     status = db.Column(db.Enum(InvoiceStatus), nullable=False)
-    due_at = db.Column(db.DateTime,  default=db.func.current_timestamp() +
-                       timedelta(days=1))
+    due_at = db.Column(db.DateTime,  default=db.func.current_timestamp())
+    payments = db.relationship('Payment', backref='invoice', lazy=True)
 
     def __repr__(self):
         return '<Invoice %r>' % (self.id)
@@ -139,8 +140,15 @@ class Payment(Base):
 
     __tablename__ = 'payments'
 
-    invoice_id = db.Column(db.Integer)
+    invoice_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('invoices.id')
+    )
     amount = db.Column(db.Float)
+    payment_mode = db.Column(
+        db.Enum(PaymentModes), 
+        default=PaymentModes.M_PESA
+    )
     payment_json = db.Column(db.JSON)
 
     def __repr__(self):
