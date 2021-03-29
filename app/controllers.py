@@ -84,6 +84,20 @@ def get_customer(customer_id):
     return Customer.query.filter_by(id=customer_id).first()
 
 
+def get_customer_info(customer_id):
+    customer = get_customer(customer_id)
+    invoices = get_customer_invoices(customer_id)
+    payments = get_customer_payments(customer_id)
+    policies = {}
+
+    return dict(
+        customer=customer,
+        invoices=invoices,
+        payments=payments,
+        policies=policies
+    )
+
+
 def validate_customer_email(email):
     return Customer.query.filter_by(email=email).first()
 
@@ -137,6 +151,10 @@ def get_invoice(invoice_id):
     return Invoice.query.filter_by(id=invoice_id).first()
 
 
+def get_customer_invoices(customer_id):
+    return Invoice.query.filter_by(customer_id=customer_id).all()
+
+
 def get_invoices():
     return Invoice.query.all()
 
@@ -145,7 +163,7 @@ def create_payment(payment_payload):
     new_payment = Payment(
         invoice_id=payment_payload['invoice'],
         amount=payment_payload['amount'],
-        status=payment_payload['status']
+        payment_mode=payment_payload['payment_mode']
     )
 
     try:
@@ -158,6 +176,15 @@ def create_payment(payment_payload):
 
 def get_payment(payment_id):
     return Payment.query.filter_by(id=payment_id).first()
+
+def get_payments():
+    return Payment.query.all()
+
+
+def get_customer_payments(customer_id):
+    return Payment.query.join(Invoice).join(
+        Customer, Invoice.customer_id == Customer.id
+    ).filter_by(id=customer_id).all()
 
 # def create_cover:
 #     pass

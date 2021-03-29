@@ -5,7 +5,7 @@
       {% include 'partials/sidenav.html' %}
     </div>
     <div class="column is-10">
-      <div class="level">
+      <!-- <div class="level">
         <div class="level-left"></div>
         <div class="level-right">
           <a href="/new-invoice" class="button is-primary">
@@ -15,46 +15,56 @@
             <span>New Invoice</span>
           </a>
         </div>
+      </div> -->
+      <div class="box">
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if invoices|length > 0 %}
+              {% for invoice in invoices %}
+              <tr>
+                <td>{{ invoice.item_id }}</td>
+                <td>{{ invoice.price }}</td>
+                <td>{{ invoice.due_at }}</td>
+                <td>{{ invoice.status.name }}</td>
+                <td>
+                  <a
+                      href="#"
+                      class="button is-small is-link"
+                      onclick="updatePaymentFormModal(
+                        'newCustomeInvoicePayment',
+                        'customerInvoicePaymentID',
+                        '{{ invoice.id }}'
+                      )"
+                    >
+                      <span class="icon">
+                        <i class="fa fa-plus"></i>
+                      </span>
+                      <span>Add Invoice Payment</span>
+                    </a>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="4">
+                <span class="has-text-weight-bold has-text-primary">
+                  No available invoices
+                </span>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
-      <table class="table is-fullwidth">
-        <thead>
-          <tr>
-            <th>Customer's First Name</th>
-            <th>Customer's Last Name</th>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th colspan="2">Actions</th>
-          </tr>
-        </thead>
-        <!-- <tbody>
-          {% for customer in customers %}
-          <tr>
-            <td>{{ customer.f_name }}</td>
-            <td>{{ customer.l_name }}</td>
-            <td>{{ '254%s' % customer.phone }}</td>
-            <td>{{ customer.email }}</td>
-            <td><a href="#" class="button">View</a></td>
-            <td>
-              {% if customer.is_active() %}
-              <a
-                href="{{'/update-customer-status/%s' % customer.id }}"
-                class="button is-danger"
-                >Deactivate</a
-              >
-              {% else %}
-              <a
-                href="{{'/update-customer-status/%s' % customer.id }}"
-                class="button"
-                >Activate</a
-              >
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody> -->
-      </table>
     </div>
   </div>
 </div>

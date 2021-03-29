@@ -11,7 +11,7 @@
           {% for message in errors %} 
               <div>{{ message }}</div>
           {% endfor %}
-          <form method="POST" action="/new-product/">
+          <form method="POST" action="/new-product">
               {{ form.csrf_token }}
               {{ form.name(size=20, placeholder="Name", class="input", style="margin-top:1em;") }}
               {{ form.category(size=10, placeholder="Product Category", class="input", style="margin-top:1em;") }}
