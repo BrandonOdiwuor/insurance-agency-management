@@ -1,8 +1,28 @@
-from flask import flash, redirect, render_template, url_for, session
+from os import environ
+from flask import request, flash, redirect, render_template, \
+    url_for, session
 from . import auth
 from .forms import LoginForm, CustomerRegistrationForm
-from app.controllers import create_customer, verify_user, verify_customer
+from app.controllers import create_customer, verify_user, \
+    verify_customer, create_user
 from app.utils.utils import login_required
+
+
+@auth.route("/create-admin", methods=['POST'])
+def create_admin():
+    data = request.get_json()
+    if data['DEV_KEY'] == environ.get("DEV_KEY"):
+        user_payload = dict(
+            first_name = data['first_name'],
+            last_name = data['last_name'],
+            email = data['email'],
+            password = data['password'],
+            phone = data['phone']
+        )
+        create_user(user_payload)
+        return 'ok'
+    else:
+        return "security error!"
 
 
 @auth.route('/register-customer', methods=['GET', 'POST'])
