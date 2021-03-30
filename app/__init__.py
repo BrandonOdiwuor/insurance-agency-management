@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from settings import app_config, DevelopmentConfig
+from settings import app_config
 from os import environ
 
 db = SQLAlchemy()
@@ -12,7 +12,7 @@ def create_app(config_name):
     db.init_app(app)
 
     # Select appropriate Configuration
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(app_config[config_name])
 
     _ = Migrate(app, db)
 
@@ -28,7 +28,5 @@ def create_app(config_name):
 
     from .customer import customer as customer_blueprint
     app.register_blueprint(customer_blueprint)
-
-    # db.create_all()
 
     return app
