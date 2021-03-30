@@ -14,7 +14,7 @@ def create_app(config_name):
     # Select appropriate Configuration
     app.config.from_object(app_config[config_name])
 
-    _ = Migrate(app, db)
+    Migrate(app, db)
 
     # Register Blueprints
     from .admin import admin as admin_blueprint
