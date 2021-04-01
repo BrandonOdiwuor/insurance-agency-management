@@ -16,6 +16,7 @@ fi
 
 # After running conditional migrations start gunicorn server
 # Prepare log files and start outputting logs to stdout
+mkdir logs
 touch ./logs/gunicorn.log
 touch ./logs/gunicorn-access.log
 touch ./logs/gunicorn-error.log
