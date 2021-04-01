@@ -5,7 +5,7 @@
 
 ### Running
 ###### For Local Development
-1. Run `git clone https://bitbucket.org/kbsaasplatform/authentication-svc/src/master/ kb-authentication-svc`
+1. Run `git clone https://github.com/BrandonOdiwuor/insurance-mini`
 2. From the projects root run `cp .env.example .env`
 3. Configure your `.env` file
 4. Run `sh scripts/service_destroy_local.sh` if you're running the application for the first time.
@@ -13,7 +13,7 @@
 6. Test it out at http://service_host:${SVC_PORT}. The "app" folder is mounted into the container and your code changes apply automatically.
 
 ###### For Development Deployment
-1. Run `git clone https://bitbucket.org/kbsaasplatform/authentication-svc/src/master/ kb-authentication-svc`
+1. Run `git clone https://github.com/BrandonOdiwuor/insurance-mini`
 2. From the projects root run `cp .env.example .env`
 3. Configure your `.env` file
 4. Run `sh scripts/service_destroy_local.sh` if you're running the application for the first time.
@@ -21,7 +21,7 @@
 6. Test it out at http://service_host:${SVC_PORT}. The "app" folder is mounted into the container and your code changes apply automatically.
 
 ###### For Staging Deployment
-1. Run `git clone https://bitbucket.org/kbsaasplatform/authentication-svc/src/master/ kb-authentication-svc`
+1. Run `git clone https://github.com/BrandonOdiwuor/insurance-mini`
 2. From the projects root run `cp .env.example .env`
 3. Configure your `.env` file
 4. Run `sh scripts/service_destroy_local.sh` if you're running the application for the first time.
@@ -29,7 +29,7 @@
 6. Test it out at http://service_host:${SVC_PORT}. The "app" folder is mounted into the container and your code changes apply automatically.
 
 ###### For Production Deployment
-1. Run `git clone https://bitbucket.org/kbsaasplatform/authentication-svc/src/master/ kb-authentication-svc`
+1. Run `git clone https://github.com/BrandonOdiwuor/insurance-mini`
 2. From the projects root run `cp .env.example .env`
 3. Configure your `.env` file
 4. Run `sh scripts/service_destroy_local.sh` if you're running the application for the first time.
