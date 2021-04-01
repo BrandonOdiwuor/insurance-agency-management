@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  # Granate web appplication
+  granate_web_app:
+    image: granate_web_application
+    env_file:
+      - ../.env
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ..:/app
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - db
+    restart: "always"
+
+  # database service
+  db:
+    image: postgres:12.4-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGPORT=${DB_PORT}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: "always"
+
+volumes:
+  data:
