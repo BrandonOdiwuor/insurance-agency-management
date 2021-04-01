@@ -1,18 +1,19 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from settings import app_config
+from settings import AppConfig
 from os import environ
 
 db = SQLAlchemy()
 
 
-def create_app(config_name):
+def create_app():
     app = Flask(__name__)
-    db.init_app(app)
 
-    # Select appropriate Configuration
-    app.config.from_object(app_config[config_name])
+    # Set app Configuration
+    app.config.from_object(AppConfig)
+    
+    db.init_app(app)
 
     Migrate(app, db)
 
