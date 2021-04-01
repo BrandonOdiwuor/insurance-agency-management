@@ -19,7 +19,8 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
-migrations/
+migrations/versions/*
+docker-local-stack.yml
 
 # Coverage reports
 htmlcov/
