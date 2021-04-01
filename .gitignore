@@ -21,6 +21,7 @@ docs/_build/
 .vscode
 migrations/versions/*
 docker-local-stack.yml
+logs/*
 
 # Coverage reports
 htmlcov/
