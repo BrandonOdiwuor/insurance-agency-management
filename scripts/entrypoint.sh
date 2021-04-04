@@ -16,20 +16,9 @@ fi
 
 # After running conditional migrations start gunicorn server
 # Prepare log files and start outputting logs to stdout
-touch ./logs/gunicorn.log
 touch ./logs/gunicorn-access.log
 touch ./logs/gunicorn-error.log
 tail -n 0 -f ./logs/gunicorn*.log &
-gunicorn wsgi:app \
-    --name granate_web \
-    --bind ${APP_HOST}:${APP_PORT} \
-    --workers 10 \
-    --threads=5 \
-    --max-requests 2000 \
-    --log-level=info \
-    --log-file=./logs/gunicorn.log \
-    --access-logfile=./logs/gunicorn-access.log \
-    --error-logfile=./logs/gunicorn-error.log \
-    --timeout 3000 \
-    --reload
+gunicorn
+    
 exec "$cmd"
