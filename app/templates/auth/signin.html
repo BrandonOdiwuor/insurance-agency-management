@@ -1,0 +1,22 @@
+{% extends "layout.html" %} {% block page %}
+<nav
+  class="navbar container is-fluid is-boxed"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <span class="icon">
+        <i class="fa fa-arrow-left"></i>
+      </span>
+      <span>Back</span>
+    </a>
+  </div>
+</nav>
+<div class="box sign-in-box">
+  <div class="has-text-centered is-size-4 has-text-weight-bold">
+    <span class="has-text-primary">Granate</span>
+  </div>
+  {% include 'forms/signin.html' %}
+</div>
+{% endblock page %}
