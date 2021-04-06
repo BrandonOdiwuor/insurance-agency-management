@@ -13,11 +13,11 @@ def create_admin():
     data = request.get_json()
     if data['DEV_KEY'] == environ.get("DEV_KEY"):
         user_payload = dict(
-            first_name = data['first_name'],
-            last_name = data['last_name'],
-            email = data['email'],
-            password = data['password'],
-            phone = data['phone']
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            email=data['email'],
+            password=data['password'],
+            phone=data['phone']
         )
         create_user(user_payload)
         return 'ok'
@@ -28,10 +28,6 @@ def create_admin():
 @auth.route('/register-customer', methods=['GET', 'POST'])
 @login_required
 def register_customer():
-    """
-    Handle requests to the /register-customer route
-    Add a customer to the database through the registration form
-    """
     form = CustomerRegistrationForm()
 
     if form.validate_on_submit():
@@ -50,53 +46,39 @@ def register_customer():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    Handle requests to the /login route
-    Log an employee in through the login form
-    """
     form = LoginForm()
 
     if form.validate_on_submit():
-
         user = verify_user(form.email.data, form.password.data)
 
         if user:
             session['authorization'] = 'Bearer %s' % user.token()
-
             return redirect(url_for('admin.dashboard'))
+        else:
+            form.email.errors.append('Wrong email or password')
 
-        flash('Wrong email or password', 'error-message')
-
-    return render_template("forms/signin.html", form=form)
+    return render_template("auth/signin.html", form=form, action="/login")
 
 
 @auth.route('/customer-login', methods=['GET', 'POST'])
 def customer_signin():
-
     form = LoginForm()
 
     if form.validate_on_submit():
-
         customer = verify_customer(form.email.data, form.password.data)
 
         if customer:
-
             session['authorization'] = 'Bearer %s' % customer.token()
-
             return redirect(url_for('app.home'))
+        else:
+            form.email.errors.append('Wrong email or password')
 
-        flash('Wrong email or password', 'error-message')
-
-    return render_template("forms/signin.html", form=form)
+    return render_template("auth/signin.html", form=form, action="/customer-login")
 
 
 @auth.route('/logout')
 @login_required
 def logout():
-    """
-    Handle requests to the /logout route
-    Log a user out through the logout link
-    """
     session.clear()
 
     # redirect to the login page
