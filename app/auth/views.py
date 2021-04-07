@@ -41,7 +41,7 @@ def register_customer():
         }
         create_customer(customer_payload)
         return redirect(url_for('admin.customers'))
-    return render_template("forms/customer.html", form=form)
+    return render_template("auth/register-customer.html", form=form)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
