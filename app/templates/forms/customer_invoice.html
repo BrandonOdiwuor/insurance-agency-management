@@ -1,26 +1,41 @@
 <div>
   <form method="POST" action="{{ '/create-customer-invoice/%s' % customer.id }}">
     {{ customer_invoice_form.csrf_token }}
-    {{
-      customer_invoice_form.item(
-        placeholder="Product", 
-        class="input"
-      )
-    }}
-    {{
-      customer_invoice_form.price(
-        placeholder="Price", 
-        class="input",
-        style="margin-top:1em;"
-      )
-    }}
-    {{
-      customer_invoice_form.due_at(
-        placeholder="Due Date", 
-        class="input", 
-        style="margin-top:1em;"
-      )
-    }}
+    <div class="field">
+      {{ customer_invoice_form.item.label(class="label") }}
+      <div class="control">
+        {{
+          customer_invoice_form.item(
+            placeholder="Product...", 
+            class="input"
+          )
+        }}
+      </div>
+    </div>
+    <div class="field">
+      {{ customer_invoice_form.price.label(class="label") }}
+      <div class="control">
+        {{
+          customer_invoice_form.price(
+            placeholder="Price", 
+            class="input",
+            style="margin-top:1em;"
+          )
+        }}
+      </div>
+    </div>
+    <div class="field">
+      {{ customer_invoice_form.due_at.label(class="label") }}
+      <div class="control">
+        {{
+          customer_invoice_form.due_at(
+            placeholder="Due Date", 
+            class="input", 
+            style="margin-top:1em;"
+          )
+        }}
+      </div>
+    </div>
     <button type="submit" name="submit" class="button is-fullwidth is-primary mt-4">
       <span class="icon">
         <i class="fa fa-plus"></i>

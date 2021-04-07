@@ -1,21 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, ValidationError, validators
 from ..controllers import validate_customer_email, validate_customer_telephone
-
+from wtforms.fields.html5 import EmailField, TelField, IntegerField
 
 class CustomerRegistrationForm(FlaskForm):
     """
-    Form for to crethe admin to create new customer account
+    Form by admin user to create new customer account
     """
     first_name = StringField('First Name', [
         validators.InputRequired()])
     last_name = StringField('Last Name', [
         validators.InputRequired()])
-    email = StringField('Email Address', [
+    email = EmailField('Email Address', [
         validators.InputRequired(),
-        validators.Email(),
-        validators.Length(min=6, max=35)])
-    mobile_phone = StringField('Telephone', [
+        validators.Email()])
+    mobile_phone = TelField('Telephone', [
         validators.InputRequired(),
         validators.Length(min=9, max=9)])
     id_no = StringField('ID Number', [
@@ -35,9 +34,8 @@ class LoginForm(FlaskForm):
     """
     Form for users to login
     """
-    email = StringField('Email Address', [
+    email = EmailField('Email Address', [
         validators.InputRequired(),
-        validators.Email(),
-        validators.Length(min=6, max=35)])
+        validators.Email()])
     password = PasswordField('Password', [validators.InputRequired()])
     submit = SubmitField('Sign in')
