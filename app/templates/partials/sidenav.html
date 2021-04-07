@@ -10,9 +10,11 @@
       <li>
         <a 
           href="/customers"
-          {% if request.url_rule.endpoint == 'admin.customers' or 
-          request.url_rule.endpoint == 'auth.register_customer' or 
-            request.url_rule.endpoint == 'admin.customer' %} class="is-active"{% endif %}
+          {% if 
+            request.url_rule.endpoint == 'admin.customers' or 
+            request.url_rule.endpoint == 'auth.register_customer' or 
+            request.url_rule.endpoint == 'admin.customer'
+          %} class="is-active"{% endif %}
         > Customers </a>
       </li>
       <li>
@@ -36,7 +38,10 @@
       <li>
         <a 
           href="/products"
-          {% if request.path == '/products' %} class="is-active"{% endif %}
+          {% if 
+            request.path == '/products' or 
+            request.url_rule.endpoint == 'admin.register_product' 
+          %} class="is-active"{% endif %}
         > Products </a>
       </li>
       <li>
