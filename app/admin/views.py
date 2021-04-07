@@ -50,7 +50,8 @@ def create_customer_ivoice(customer_id):
     invoice_payload = dict(
         item=request.form['item'],
         price=request.form['price'],
-        customer=customer_id
+        customer=customer_id,
+        due_at=request.form['due_at'],
     )
     create_invoice(invoice_payload)
     return redirect(url_for('admin.customer', customer_id=customer_id))
@@ -82,9 +83,9 @@ def products():
     return render_template("admin/products.html", products=products)
 
 
-@admin.route('/new-product', methods=['GET', 'POST'])
+@admin.route('/register-product', methods=['GET', 'POST'])
 @login_required
-def new_product():
+def register_product():
     form = SaleItemForm()
 
     if form.validate_on_submit():
@@ -95,7 +96,7 @@ def new_product():
         }
         create_item_of_sale(sale_item_payload)
         return redirect(url_for('admin.products'))
-    return render_template("forms/product.html", form=form)
+    return render_template("admin/register-product.html", form=form)
 
 
 @admin.route('/invoices', methods=['GET'])
