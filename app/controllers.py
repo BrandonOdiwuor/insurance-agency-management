@@ -125,6 +125,7 @@ def create_invoice(invoice_payload):
         item_id=invoice_payload['item'],
         customer_id=invoice_payload['customer'],
         price=invoice_payload['price'],
+        due_at=invoice_payload['due_at'],
         status=InvoiceStatus.ACTIVE
     )
 
