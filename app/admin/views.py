@@ -134,3 +134,8 @@ def quotations():
 def payments():
     payments = get_payments()
     return render_template("admin/payments.html", payments=payments)
+
+@admin.route('/covers', methods=['GET'])
+@login_required
+def covers():
+    return render_template("admin/covers.html")
