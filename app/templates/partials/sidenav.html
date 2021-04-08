@@ -45,7 +45,10 @@
         > Products </a>
       </li>
       <li>
-        <a href="#"> Covers </a>
+        <a 
+          href="/covers"
+          {% if request.path == '/covers' %} class="is-active"{% endif %}
+        > Covers </a>
       </li>
     </ul>
   </nav>  
