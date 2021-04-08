@@ -1,17 +1,10 @@
 <div class="mt-4 box">
-  <!-- <div class="level">
+  <div class="level">
     <div class="level-left">
       <span class="is-size-5 has-text-weight-bold">Customer Payments</span>
     </div>
-    <div class="level-right">
-      <a href="/register-customer" class="button is-small is-primary">
-        <span class="icon">
-          <i class="fa fa-plus"></i>
-        </span>
-        <span>Add Payment</span>
-      </a>
-    </div>
-  </div> -->
+    <div class="level-right"></div>
+  </div>
   <table class="table is-fullwidth">
     <thead>
       <tr>
@@ -24,21 +17,21 @@
     <tbody>
       {% if payments|length > 0 %}
         {% for payment in payments %}
-        <tr>
-          <td>{{ payment.invoice_id }}</td>
-          <td>{{ payment.payment_mode.value }}</td>
-          <td>{{ payment.amount }}</td>
-          <td>{{ payment.created_at }}</td>
-        </tr>
+          <tr>
+            <td>{{ payment.invoice_id }}</td>
+            <td>{{ payment.payment_mode.value }}</td>
+            <td>{{ payment.amount }}</td>
+            <td>{{ payment.created_at }}</td>
+          </tr>
         {% endfor %}
       {% else %}
-      <tr>
-        <td colspan="4">
-          <span class="has-text-weight-bold has-text-primary">
-            No available payments
-          </span>
-        </td>
-      </tr>
+        <tr>
+          <td colspan="4">
+            <span class="has-text-weight-bold has-text-primary">
+              No available payments
+            </span>
+          </td>
+        </tr>
       {% endif %}
     </tbody>
   </table>
