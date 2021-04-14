@@ -30,10 +30,10 @@ page %}
             {% if customers|length > 0 %}
               {% for customer in customers %}
                 <tr>
-                  <td>{{ customer.f_name }}</td>
-                  <td>{{ customer.l_name }}</td>
-                  <td>{{ '254%s' % customer.phone }}</td>
-                  <td>{{ customer.email }}</td>
+                  <td>{{ customer.first_name }}</td>
+                  <td>{{ customer.last_name }}</td>
+                  <td>{{ '254%s' % customer.primary_phone_number }}</td>
+                  <td>{{ customer.primary_email }}</td>
                   <td>
                     <a
                       href="{{'/customer/%s' % customer.id }}"
