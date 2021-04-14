@@ -15,3 +15,8 @@ class InvoiceStatus(Enum):
 class PaymentModes(Enum):
     CASH = "Cash"
     M_PESA = "M-Pesa"
+
+
+class GenderChoices(Enum):
+    Male = "Male"
+    Female = "Female"

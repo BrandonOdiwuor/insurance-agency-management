@@ -5,7 +5,8 @@ from . import auth
 from .forms import LoginForm, CustomerRegistrationForm
 from app.controllers import create_customer, verify_user, \
     verify_customer, create_user
-from app.utils.utils import login_required
+from app.utils.utils import login_required, save_file
+from app.utils.enums import GenderChoices
 
 
 @auth.route("/create-admin", methods=['POST'])
@@ -29,15 +30,30 @@ def create_admin():
 @login_required
 def register_customer():
     form = CustomerRegistrationForm()
+    form.gender.choices = [
+        (gender_choice.name, gender_choice.name) for gender_choice in GenderChoices
+    ]
 
     if form.validate_on_submit():
+        attachment_id_front = save_file(form.attachment_id_front.data)
+        attachment_id_back = save_file(form.attachment_id_back.data)
         customer_payload = {
             'first_name': form.first_name.data,
             'last_name': form.last_name.data,
-            'id_no': form.id_no.data,
-            'phone': form.mobile_phone.data,
-            'email': form.email.data,
-            'password': 'pass@123'
+            'national_id_number': form.national_id_number.data,
+            'primary_phone_number': form.primary_phone_number.data,
+            'primary_email': form.primary_email.data,
+            'password': 'pass@123',  # To DO: -FIX autogenerate password
+            'physical_address': form.physical_address.data,
+            'city': form.city.data,
+            'county': form.county.data,
+            'postal_address': form.postal_address.data,
+            'postal_code': form.postal_code.data,
+            'gender': form.gender.data,
+            'birth_date': form.birth_date.data,
+            'kra_pin': form.kra_pin.data,
+            'attachment_id_front': attachment_id_front,
+            'attachment_id_back': attachment_id_back
         }
         create_customer(customer_payload)
         return redirect(url_for('admin.customers'))
