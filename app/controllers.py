@@ -1,7 +1,11 @@
 from app import db
-from app.models import User, Customer, CustomerStatus, Invoice, \
-    InvoiceStatus, Payment, Policy, Quotation, SaleItem
-from app.utils.enums import CustomerStatus
+from app.models.user import User
+from app.models.customer import Customer, CustomerStatus
+from app.models.invoice import Invoice, InvoiceStatus
+from app.models.payment import Payment
+from app.models.covers import Cover
+from app.models.quotation import Quotation
+from app.models.sale_item import SaleItem
 
 
 def create_user(user_payload):
@@ -177,6 +181,7 @@ def create_payment(payment_payload):
 
 def get_payment(payment_id):
     return Payment.query.filter_by(id=payment_id).first()
+
 
 def get_payments():
     return Payment.query.all()
