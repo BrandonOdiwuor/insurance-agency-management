@@ -2,10 +2,10 @@ from os import environ
 from flask import request, flash, redirect, render_template, \
     url_for, session
 from . import auth
-from .forms import LoginForm, CustomerRegistrationForm
+from .forms import LoginForm, CustomerRegistrationForm, CustomerUpdateForm
 from app.controllers import create_customer, verify_user, \
-    verify_customer, create_user
-from app.utils.utils import login_required, save_file
+    verify_customer, create_user, get_customer, edit_customer
+from app.utils.utils import login_required, save_file, get_customer_form_payload
 from app.utils.enums import GenderChoices
 
 
@@ -35,29 +35,30 @@ def register_customer():
     ]
 
     if form.validate_on_submit():
-        attachment_id_front = save_file(form.attachment_id_front.data)
-        attachment_id_back = save_file(form.attachment_id_back.data)
-        customer_payload = {
-            'first_name': form.first_name.data,
-            'last_name': form.last_name.data,
-            'national_id_number': form.national_id_number.data,
-            'primary_phone_number': form.primary_phone_number.data,
-            'primary_email': form.primary_email.data,
-            'password': 'pass@123',  # To DO: -FIX autogenerate password
-            'physical_address': form.physical_address.data,
-            'city': form.city.data,
-            'county': form.county.data,
-            'postal_address': form.postal_address.data,
-            'postal_code': form.postal_code.data,
-            'gender': form.gender.data,
-            'birth_date': form.birth_date.data,
-            'kra_pin': form.kra_pin.data,
-            'attachment_id_front': attachment_id_front,
-            'attachment_id_back': attachment_id_back
-        }
+        customer_payload = get_customer_form_payload(form)
+        customer_payload['attachment_id_front'] = save_file(
+            form.attachment_id_front.data
+        )
+        customer_payload['attachment_id_back'] = save_file(
+            form.attachment_id_back.data
+        )
         create_customer(customer_payload)
         return redirect(url_for('admin.customers'))
-    return render_template("auth/register-customer.html", form=form)
+    return render_template("auth/register-customer.html", form=form, form_to="/register-customer")
+
+
+@auth.route('/update-customer/<string:customer_id>', methods=['GET', 'POST'])
+@login_required
+def update_customer(customer_id):
+    customer = get_customer(customer_id)
+    form = CustomerUpdateForm(obj=customer)
+    form.gender.choices = [
+        (gender_choice.name, gender_choice.name) for gender_choice in GenderChoices
+    ]
+    if form.validate_on_submit():
+        edit_customer(customer_id, get_customer_form_payload(form))
+        return redirect(url_for('admin.customer', customer_id=customer_id))
+    return render_template("auth/update-customer.html", form=form, form_to="/update-customer/%s" % customer_id)
 
 
 @auth.route('/login', methods=['GET', 'POST'])

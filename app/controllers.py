@@ -140,6 +140,18 @@ def update_customer_status(customer_id):
         print("error : ", exception)
 
 
+def edit_customer(customer_id, customer_payload):
+    customer = Customer.query.filter_by(id=customer_id).first()
+    for key in customer_payload:
+        setattr(customer, key, customer_payload[key])
+
+    try:
+        db.session.commit()
+
+    except Exception as exception:
+        print("error : ", exception)
+
+
 def create_invoice(invoice_payload):
     new_invoice = Invoice(
         item_id=invoice_payload['item'],

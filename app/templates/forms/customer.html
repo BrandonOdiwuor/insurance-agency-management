@@ -1,5 +1,5 @@
 {% include 'partials/form_errors.html' %}
-<form method="POST" action="/register-customer" enctype="multipart/form-data">
+<form method="POST" action="{{form_to}}" enctype="multipart/form-data">
   {{ form.csrf_token }}
   <div class="columns">
     <div class="column">
@@ -203,10 +203,18 @@
     type="submit" 
     name="submit" 
     class="button is-fullwidth is-primary mt-4">
-    <span class="icon">
-      <i class="fa fa-user-plus"></i>
-    </span>
-    <span>Register</span>
+    {% if form_to == '/register-customer' %}
+      <span class="icon">
+        <i class="fa fa-user-plus"></i>
+      </span>
+      <span>Register</span>
+    {% else %}
+      <span class="icon">
+        <i class="fa fa-edit"></i>
+      </span>
+      <span>Update</span>
+    {% endif %}
+    
   </button>
 </form>
 <script>

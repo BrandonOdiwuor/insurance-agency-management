@@ -33,3 +33,22 @@ def save_file(file):
             file.save(path.join(environ.get('UPLOAD_FOLDER'), filename))
             return filename
     return None
+
+
+def get_customer_form_payload(form):
+    return {
+        'first_name': form.first_name.data,
+        'last_name': form.last_name.data,
+        'national_id_number': form.national_id_number.data,
+        'primary_phone_number': form.primary_phone_number.data,
+        'primary_email': form.primary_email.data,
+        'password': 'pass@123',  # To DO: -FIX autogenerate password
+        'physical_address': form.physical_address.data,
+        'city': form.city.data,
+        'county': form.county.data,
+        'postal_address': form.postal_address.data,
+        'postal_code': form.postal_code.data,
+        'gender': form.gender.data,
+        'birth_date': form.birth_date.data,
+        'kra_pin': form.kra_pin.data
+    }
