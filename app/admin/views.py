@@ -21,7 +21,7 @@ def customers():
     return render_template("admin/customers.html", customers=customers)
 
 
-@admin.route('/customer/<int:customer_id>', methods=['GET'])
+@admin.route('/customer/<string:customer_id>', methods=['GET'])
 @login_required
 def customer(customer_id):
     customer_info = get_customer_info(customer_id)
@@ -44,7 +44,7 @@ def customer(customer_id):
     )
 
 
-@admin.route('/create-customer-invoice/<int:customer_id>', methods=['POST'])
+@admin.route('/create-customer-invoice/<string:customer_id>', methods=['POST'])
 @login_required
 def create_customer_ivoice(customer_id):
     invoice_payload = dict(
@@ -57,7 +57,7 @@ def create_customer_ivoice(customer_id):
     return redirect(url_for('admin.customer', customer_id=customer_id))
 
 
-@admin.route('/create-customer-invoice-payment/<int:customer_id>', methods=['POST'])
+@admin.route('/create-customer-invoice-payment/<string:customer_id>', methods=['POST'])
 @login_required
 def create_customer_ivoice_payment(customer_id):
     invoice_payment_payload = dict(
@@ -69,7 +69,7 @@ def create_customer_ivoice_payment(customer_id):
     return redirect(url_for('admin.customer', customer_id=customer_id))
 
 
-@admin.route('/update-customer-status/<int:customer_id>', methods=['GET'])
+@admin.route('/update-customer-status/<string:customer_id>', methods=['GET'])
 @login_required
 def change_customer_status(customer_id):
     update_customer_status(customer_id)
