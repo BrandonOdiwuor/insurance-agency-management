@@ -2687,12 +2687,12 @@ a.tag:hover {
   overflow: hidden;
   position: relative; }
   .file-label:hover .file-cta {
-    background-color: #eeeeee;
+    background-color: #e6ddeb;
     color: #363636; }
   .file-label:hover .file-name {
     border-color: #d5d5d5; }
   .file-label:active .file-cta {
-    background-color: #e8e8e8;
+    background-color: #e0d5e7;
     color: #363636; }
   .file-label:active .file-name {
     border-color: #cfcfcf; }
@@ -2716,7 +2716,7 @@ a.tag:hover {
   white-space: nowrap; }
 
 .file-cta {
-  background-color: whitesmoke;
+  background-color: #ECE5F0;
   color: #4a4a4a; }
 
 .file-name {

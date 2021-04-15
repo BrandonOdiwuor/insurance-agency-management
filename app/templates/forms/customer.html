@@ -1,38 +1,44 @@
 {% include 'partials/form_errors.html' %}
-<form method="POST" action="/register-customer">
+<form method="POST" action="{{form_to}}" enctype="multipart/form-data">
   {{ form.csrf_token }}
-  <div class="field">
-    {{ form.first_name.label(class="label") }}
-    <div class="control">
-      {{ 
-        form.first_name(
-          placeholder="First Name...", 
-          class="input"
-      )}}
+  <div class="columns">
+    <div class="column">
+      <div class="field">
+        {{ form.first_name.label(class="label") }}
+        <div class="control">
+          {{ 
+            form.first_name(
+              placeholder="First Name...", 
+              class="input"
+          )}}
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        {{ form.last_name.label(class="label") }}
+        <div class="control">
+          {{
+            form.last_name(
+              placeholder="Last Name...", 
+              class="input"
+          )}}
+        </div>
+      </div>
     </div>
   </div>
   <div class="field">
-    {{ form.last_name.label(class="label") }}
+    {{ form.primary_email.label(class="label") }}
     <div class="control">
       {{
-        form.last_name(
-          placeholder="Last Name...", 
-          class="input"
-      )}}
-    </div>
-  </div>
-  <div class="field">
-    {{ form.email.label(class="label") }}
-    <div class="control">
-      {{
-        form.email(
+        form.primary_email(
           placeholder="Email...", 
           class="input"
       )}}
     </div>
   </div>
   <div class="mb-4">
-    {{ form.mobile_phone.label(class="label") }}
+    {{ form.primary_phone_number.label(class="label") }}
     <div class="field has-addons">
       
       <div class="control">
@@ -44,7 +50,7 @@
       </div>
       <div class="control is-expanded">
         {{
-          form.mobile_phone(
+          form.primary_phone_number(
             pattern="[0-9]{9}",
             placeholder="Tel e.g 712345678", 
             class="input"
@@ -53,23 +59,174 @@
     </div>
   </div>
   <div class="field">
-    {{ form.id_no.label(class="label") }}
+    {{ form.national_id_number.label(class="label") }}
     <div class="control">
       {{ 
-        form.id_no(
+        form.national_id_number(
           pattern="[0-9]{8}",
           placeholder="ID Number...",
           class="input"
     )}}
     </div>
   </div>
+  <div class="field">
+    {{ form.physical_address.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.physical_address(
+          placeholder="Physical Address...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.city.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.city(
+          placeholder="City...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.county.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.county(
+          placeholder="County...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <div class="field">
+        {{ form.postal_address.label(class="label") }}
+        <div class="control">
+          {{ 
+            form.postal_address(
+              placeholder="Postal Address...", 
+              class="input"
+          )}}
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        {{ form.postal_code.label(class="label") }}
+        <div class="control">
+          {{ 
+            form.postal_code(
+              placeholder="Postal Code...", 
+              class="input"
+          )}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    {{ form.gender.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.gender(
+          placeholder="Gender...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.birth_date.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.birth_date(
+          placeholder="Date Of Birth...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.kra_pin.label(class="label") }}
+    <div class="control">
+      {{ 
+        form.kra_pin(
+          placeholder="KRA Pin...", 
+          class="input"
+      )}}
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <div class="field">
+        {{ form.attachment_id_front.label(class="label") }}
+        <div id="file-id-front" class="file is-fullwidth has-name is-small is-boxed">
+          <label class="file-label">
+            {{form.attachment_id_front(class="file-input")}}
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fa fa-upload"></i>
+              </span>
+              <span class="file-label has-text-centered">
+                Choose ID Front file…
+              </span>
+            </span>
+            <span class="file-name">
+              No file selected
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        {{ form.attachment_id_back.label(class="label") }}
+        <div id="file-id-back" class="file is-fullwidth is-small has-name is-boxed">
+          <label class="file-label">
+            {{form.attachment_id_back(class="file-input")}}
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fa fa-upload"></i>
+              </span>
+              <span class="file-label has-text-centered">
+                Choose ID Back file…
+              </span>
+            </span>
+            <span class="file-name">
+              No file selected
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
   <button 
     type="submit" 
     name="submit" 
     class="button is-fullwidth is-primary mt-4">
-    <span class="icon">
-      <i class="fa fa-user-plus"></i>
-    </span>
-    <span>Register</span>
+    {% if form_to == '/register-customer' %}
+      <span class="icon">
+        <i class="fa fa-user-plus"></i>
+      </span>
+      <span>Register</span>
+    {% else %}
+      <span class="icon">
+        <i class="fa fa-edit"></i>
+      </span>
+      <span>Update</span>
+    {% endif %}
+    
   </button>
 </form>
+<script>
+  const registerOnFileInputChange = (inputID) => {
+    const fileInput = document.querySelector(`#${inputID} input[type=file]`);
+    fileInput.onchange= () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector(`#${inputID} .file-name`);
+        fileName.textContent = fileInput.files[0].name;
+      }
+    }
+  };
+  registerOnFileInputChange('file-id-front');
+  registerOnFileInputChange('file-id-back');
+</script>
