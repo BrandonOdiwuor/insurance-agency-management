@@ -17,10 +17,4 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
-docker-local-stack.yml
-
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
-*,cover
+docker-compose.yml
