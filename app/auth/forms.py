@@ -6,9 +6,9 @@ from ..controllers import validate_customer_email, validate_customer_telephone
 from wtforms.fields.html5 import EmailField, TelField, IntegerField, DateField
 
 
-class CustomerRegistrationForm(FlaskForm):
+class CustomerForm(FlaskForm):
     """
-    Form by admin user to create new customer account
+    Base Form by admin user to create/edit customer account
     """
     first_name = StringField('First Name', [validators.InputRequired()])
     last_name = StringField('Last Name', [validators.InputRequired()])
@@ -21,7 +21,8 @@ class CustomerRegistrationForm(FlaskForm):
     national_id_number = StringField('National ID Number', [
         validators.InputRequired(), validators.Length(min=8, max=8)
     ])
-    physical_address = StringField('Physical Adress', [validators.InputRequired()])
+    physical_address = StringField(
+        'Physical Adress', [validators.InputRequired()])
     city = StringField('City', [validators.InputRequired()])
     county = StringField('County', [validators.InputRequired()])
     postal_address = StringField('Postal Adress', [validators.InputRequired()])
@@ -29,6 +30,9 @@ class CustomerRegistrationForm(FlaskForm):
     gender = SelectField('Gender', [validators.InputRequired()])
     birth_date = DateField('Date Of Birth', [validators.InputRequired()])
     kra_pin = StringField('KRA Pin', [validators.InputRequired()])
+
+
+class CustomerRegistrationForm(CustomerForm):
     attachment_id_front = FileField('ID Front', validators=[FileRequired()])
     attachment_id_back = FileField('ID Back', validators=[FileRequired()])
 
@@ -39,6 +43,11 @@ class CustomerRegistrationForm(FlaskForm):
     def validate_primary_phone_number(self, field):
         if validate_customer_telephone(field.data):
             raise ValidationError('Mobile phone is already in registered.')
+
+
+class CustomerUpdateForm(CustomerForm):
+    attachment_id_front = FileField('ID Front')
+    attachment_id_back = FileField('ID Back')
 
 
 class LoginForm(FlaskForm):

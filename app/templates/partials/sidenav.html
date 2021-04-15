@@ -13,7 +13,8 @@
           {% if 
             request.url_rule.endpoint == 'admin.customers' or 
             request.url_rule.endpoint == 'auth.register_customer' or 
-            request.url_rule.endpoint == 'admin.customer'
+            request.url_rule.endpoint == 'admin.customer' or
+            request.url_rule.endpoint == 'auth.update_customer'
           %} class="is-active"{% endif %}
         > Customers </a>
       </li>
