@@ -62,7 +62,7 @@ def create_customer(customer_payload):
         password=customer_payload['password'],
         account_status=CustomerStatus.INACTIVE,
         physical_address=customer_payload['physical_address'],
-        city=customer_payload['city'], 
+        city=customer_payload['city'],
         county=customer_payload['county'],
         postal_address=customer_payload['postal_address'],
         postal_code=customer_payload['postal_code'],
@@ -70,7 +70,7 @@ def create_customer(customer_payload):
         birth_date=customer_payload['birth_date'],
         kra_pin=customer_payload['kra_pin'],
         attachment_id_front=customer_payload['attachment_id_front'],
-        attachment_id_back = customer_payload['attachment_id_front']
+        attachment_id_back=customer_payload['attachment_id_front']
     )
 
     try:
@@ -98,17 +98,23 @@ def get_customer(customer_id):
     return Customer.query.filter_by(id=customer_id).first()
 
 
+def get_customer_quotations(customer_id):
+    return []
+
+
 def get_customer_info(customer_id):
     customer = get_customer(customer_id)
     invoices = get_customer_invoices(customer_id)
     payments = get_customer_payments(customer_id)
-    policies = {}
+    policies = []
+    quotations = get_customer_quotations(customer_id)
 
     return dict(
         customer=customer,
         invoices=invoices,
         payments=payments,
-        policies=policies
+        policies=policies,
+        quotations=quotations
     )
 
 
