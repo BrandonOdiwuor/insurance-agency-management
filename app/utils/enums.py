@@ -20,3 +20,9 @@ class PaymentModes(Enum):
 class GenderChoices(Enum):
     Male = "Male"
     Female = "Female"
+
+class CoverTypes(Enum):
+    MOTOR_COMMERCIAL = "Motor Commercial"
+    MOTOR_PRIVATE = "Motor Private"
+    MEDICAL_INPATIENT = "Medical Inpatient"
+    MEDICAL_OUTPATIEN = "Medial Outpatient"
