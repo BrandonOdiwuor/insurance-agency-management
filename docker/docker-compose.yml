@@ -2,12 +2,12 @@ version: "3.8"
 services:
   # Granate web appplication
   granate_web_app:
-    image: granate_web_application
+    image: granate_web
     env_file:
       - ../.env
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/web/Dockerfile
     volumes:
       - ..:/app
     ports:
@@ -18,11 +18,13 @@ services:
 
   # database service
   db:
-    image: postgres:12.4-alpine
+    image: granate_db
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - PGPORT=${DB_PORT}
+    build:
+      context: database/
     ports:
       - "${DB_PORT}:5432"
     volumes:
