@@ -6,31 +6,89 @@
         </span>
       </div>
       <div class="level-right">
-        <button 
-          class="button is-small is-link" 
-          onclick="activateModal('newCustomerQuote')"
-        >
-          <span class="icon">
-            <i class="fa fa-plus"></i>
-          </span>
-          <span>Add Quote</span>
-        </button>
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button is-link is-small" aria-haspopup="true" aria-controls="dropdown-menu4">
+              <span>Add Quote</span>
+              <span class="icon is-small">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+            <div class="dropdown-content">
+              <a 
+                href="#" 
+                class="dropdown-item" 
+                onclick="activateModal('motorPrivateQuoteModal')"
+              >
+                  Motor Private
+              </a>
+              <a
+                href="#" 
+                class="dropdown-item" 
+                onclick="activateModal('motorCommercialQuoteModal')"
+              >
+                Motor Commercial
+              </a>
+              <a href="#" class="dropdown-item">
+                Medical Inpatient
+              </a>
+              <a href="#" class="dropdown-item">
+                Medical Outpatient
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <table class="table is-fullwidth">
       <thead>
         <tr>
-          <th>Product</th>
-          <th>Price</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th>Quoted on</th>
+          <th>Quotation Type</th>
+          <th>Sum Insured in (KSh.)</th>
+          <th>Payment Plan</th>
+          <th>Premium Estimate in (KSh.)</th>
+          <th>Proposed Start Date</th>
+          <th colspan="2">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% if quotations|length > 0 %}
           {% for quotation in quotations %}
           <tr>
+            <td>{{ '{:%d-%b-%Y}'.format(quotation.created_at) }}</td>
+            <td>{{ quotation.product_type.value }}</td>
+            <td>{{ "{:,}".format(quotation.sum_insured) }}</td>
+            <td>{{ quotation.payment_plan.value }}</td>
+            <td>{{ "{:,}".format(quotation.premium) }}</td>
+            <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
+            <td>
+              <a 
+                href="{{
+                  '/update-customer-quotation/%s?quotation-type=%s' % (
+                    quotation.id, quotation.product_type.name
+                  ) 
+                }}" 
+                class="button is-small is-link is-light"
+              >
+                  <span class="icon">
+                    <i class="fa fa-eye"></i>
+                  </span>
+                  <span>View & Edit Quotation </span>
+                </a>
+            </td>
+            <td>
+              <a href="#" class="button is-small is-primary is-light">
+                <span class="icon">
+                  <i class="fa fa-envelope"></i>
+                </span>
+                <span>
+                  Mail Quotaion
+                </span>
+              </a>
+            </td>
           </tr>
           {% endfor %}
         {% else %}
@@ -46,15 +104,37 @@
     </table>
   </div>
   
-  <div id="newCustomerQuote" class="modal">
+  <div id="motorPrivateQuoteModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">New Customer Quote</p>
+        <p class="modal-card-title">Motor Private Quote</p>
         <button 
           class="delete" 
           aria-label="close"
-          onclick="deactivateModal('newCustomerQuote')"
+          onclick="deactivateModal('motorPrivateQuoteModal')"
+          ></button>
+      </header>
+      <section class="modal-card-body">
+        {% with  
+            action='/create-customer-quotation/%s' % customer.id, 
+            button_text='Create Quotation',
+            form=customer_motor_private_quotation_form
+        %}
+          {% include 'forms/private-motor-quotation.html' %}
+        {% endwith %}
+      </section>
+    </div>
+  </div>
+  <div id="motorCommercialQuoteModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Motor Commercial Quote</p>
+        <button 
+          class="delete" 
+          aria-label="close"
+          onclick="deactivateModal('motorCommercialQuoteModal')"
           ></button>
       </header>
       <section class="modal-card-body">

@@ -1,0 +1,135 @@
+{% with %}
+  {% include 'partials/form_errors.html' %}
+{%endwith %}
+<form method="POST" action="{{ action }}">
+  {{ form.csrf_token }}
+  <div class="field">
+    <div class="control">
+      {{
+        form.product_type
+      }}
+    </div>
+  </div>
+  <div class="field">
+    <div class="label">
+      What is the current value of your car (KShs)?
+    </div>
+    <div class="control">
+      {{
+        form.sum_insured(
+          placeholder="Vehicle Price...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    
+    <div class="control">
+      
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        {{ form.recent_profesional_evaluation.label(class="label") }}
+        {{ form.recent_profesional_evaluation(type="checkbox") }}
+      </label>
+    </div>
+  </div>
+  <div class="field">
+    {{ form.motor_policy_type.label(class="label") }}
+    <div class="control">
+      {{
+        form.motor_policy_type(
+          placeholder="Policy Type...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.motor_use.label(class="label") }}
+    <div class="control">
+      {{
+        form.motor_use(
+          placeholder="Vehicle Model...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.motor_model.label(class="label") }}
+    <div class="control">
+      {{
+        form.motor_model(
+          placeholder="Vehicle Model...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.motor_make.label(class="label") }}
+    <div class="control">
+      {{
+        form.motor_make(
+          placeholder="Vehicle Make...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.motor_year_of_manufacture.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.motor_year_of_manufacture(
+          placeholder="Vehicle Year of manufacture...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.policy_start_date.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.policy_start_date(
+          placeholder="Policy Start...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.payment_plan.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.payment_plan(
+          placeholder="Payment Plan...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <button type="submit" name="submit" class="button is-fullwidth is-primary mt-4">
+    <span class="icon">
+      <i class="fa fa-plus"></i>
+    </span>
+    <span>{{button_text}}</span>
+  </button>
+</form>

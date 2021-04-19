@@ -52,3 +52,14 @@ def get_customer_form_payload(form):
         'birth_date': form.birth_date.data,
         'kra_pin': form.kra_pin.data
     }
+
+
+def private_motor_premium_claculator(sum_insured):
+    total_sum_insured = 0.04 * sum_insured
+    exess_protector = 0.0025 * sum_insured
+    ptv_inclusion = 0.0025 * sum_insured
+    levies = 0.0045 * sum_insured
+    stamp_duty = 40
+    return (
+        total_sum_insured + exess_protector + ptv_inclusion + levies + stamp_duty
+    )

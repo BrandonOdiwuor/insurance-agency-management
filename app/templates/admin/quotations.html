@@ -4,7 +4,68 @@ page %}
   <div class="columns mt-4">
     <div class="column">{% include 'partials/sidenav.html' %}</div>
     <div class="column is-10">
-      <h1 class="title"># Quotations</h1>
+      <div class="box">
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Quoted on</th>
+              <th>Quotation Type</th>
+              <th>Sum Insured in (KSh.)</th>
+              <th>Payment Plan</th>
+              <th>Premium Estimate in (KSh.)</th>
+              <th>Proposed Start Date</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if quotations|length > 0 %}
+              {% for quotation in quotations %}
+              <tr>
+                <td>{{ '{:%d-%b-%Y}'.format(quotation.created_at) }}</td>
+                <td>{{ quotation.product_type.value }}</td>
+                <td>{{ "{:,}".format(quotation.sum_insured) }}</td>
+                <td>{{ quotation.payment_plan.value }}</td>
+                <td>{{ "{:,}".format(quotation.premium) }}</td>
+                <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
+                <td>
+                  <a 
+                    href="{{
+                      '/update-customer-quotation/%s?quotation-type=%s' % (
+                        quotation.id, quotation.product_type.name
+                      ) 
+                    }}" 
+                    class="button is-small is-link is-light"
+                  >
+                      <span class="icon">
+                        <i class="fa fa-eye"></i>
+                      </span>
+                      <span>View & Edit Quotation </span>
+                    </a>
+                </td>
+                <td>
+                  <a href="#" class="button is-small is-primary is-light">
+                    <span class="icon">
+                      <i class="fa fa-envelope"></i>
+                    </span>
+                    <span>
+                      Mail Quotaion
+                    </span>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="4">
+                <span class="has-text-weight-bold has-text-primary">
+                  No available quotations
+                </span>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
