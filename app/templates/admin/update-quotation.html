@@ -17,10 +17,7 @@
             </ul>
         </nav>
         <div class="box">
-            {% with 
-                button_text='Update Quotation',
-                customer_motor_private_quotation_form=form 
-            %}
+            {% with button_text='Update Quotation' %}
                 {% include 'forms/private-motor-quotation.html' %}
             {% endwith %}
         </div>

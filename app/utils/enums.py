@@ -36,9 +36,11 @@ class QuotationTypes(Enum):
     MEDICAL_OUTPATIEN = "Medial Outpatient"
 
 
-class MotorCoverTypes(Enum):
-    COMPREHENSIVE = "Motor Comprehensive"
-    THIRD_PARTY = "Motor 3rd party"
+class ProductTypes(Enum):
+    MOTOR_COMMERCIAL = "Motor Commercial"
+    MOTOR_PRIVATE = "Motor Private"
+    MEDICAL_INPATIENT = "Medical Inpatient"
+    MEDICAL_OUTPATIEN = "Medial Outpatient"
 
 
 class PaymentPlans(Enum):
@@ -46,3 +48,17 @@ class PaymentPlans(Enum):
     QUARTERLY = "Quarterly payment"
     SEMI_ANNUALLY = "Semi-annual payment"
     ANNUALLY = "Annual Payment"
+
+
+class MotorPolicyTypes(Enum):
+    COMPREHENSIVE = "Motor Comprehensive"
+    THIRD_PARTY = "Motor 3rd party"
+
+
+class PolicyStatus(Enum):
+    CREATED = "Created"
+    INVOICE_SENT = "Invoice Sent"
+    INVOICE_PAID = "Invoice Partially Paid"
+    INVOICE_PAYMENT_COMPLETE = "Invoice Payment Complete"
+    POLICY_ACTIVE = "Policy Active"
+

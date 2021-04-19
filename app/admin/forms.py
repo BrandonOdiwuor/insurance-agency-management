@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, \
-    HiddenField, validators
+from wtforms import StringField, SelectField, IntegerField, \
+    HiddenField, validators, BooleanField
 from wtforms.fields.html5 import DateTimeLocalField, DecimalField, DateField
 
 
@@ -30,11 +30,11 @@ class CustomerInvoicePaymentForm(FlaskForm):
     payment_mode = SelectField('Payment Mode')
 
 
-class QuotationForm(FlaskForm):
-    quotation_type = HiddenField(
-        'quotation_type', [validators.InputRequired()]
+class BaseProductForm(FlaskForm):
+    product_type = HiddenField(
+        'Product Type', [validators.InputRequired()]
     )
-    cover_start_date = DateField(
+    policy_start_date = DateField(
         'When do you want your cover to start?',
         [validators.InputRequired()]
     )
@@ -44,24 +44,48 @@ class QuotationForm(FlaskForm):
     payment_plan = SelectField('Desired Payment Plan')
 
 
-class MotorQuotation(QuotationForm):
-    vehicle_model = StringField('Vehicle Model?', [
+class BaseMotorForm(BaseProductForm):
+    motor_model = StringField('Vehicle Model?', [
         validators.InputRequired()
     ])
-    year_of_manufacture = DateField(
+    motor_make = StringField('Vehicle Make?', [
+        validators.InputRequired()
+    ])
+    motor_year_of_manufacture = SelectField(
         'Vehicle year of manufacture ?', [validators.InputRequired()]
     )
     motor_use = StringField('Vehicle Use', [
         validators.InputRequired()
     ])
-    motor_cover_type = SelectField("Motor Cover Type")
+    motor_policy_type = SelectField("Motor Policy Type")
+    recent_profesional_evaluation = BooleanField("Has the vehicle been \
+        professionally valued in the last 18 months?")
 
 
-# class MotorPrivateQuotation(MotorQuotation):
-#     pass
+class CompleteMotorForm(BaseMotorForm):
+    motor_seating_capacity = IntegerField(
+        'Vehicle Seating Capacity ?', [validators.InputRequired()]
+    )
+    motor_registration_number = StringField('Vehicle Registration Number', [
+        validators.InputRequired()
+    ])
+    motor_engine_number = StringField('Vehicle Engine Number', [
+        validators.InputRequired()
+    ])
+    motor_engine_cc = IntegerField('Vehicle Engine CC', [
+        validators.InputRequired()
+    ])
 
 
-class MotorCommercialQuotation(MotorQuotation):
-    vehicle_type = StringField('Vehicle Type', [
+class MotorPrivateCoverForm(CompleteMotorForm):
+    policy_status = SelectField("Policy Status")
+    policy_expiry_date = DateField(
+        'Policy Expiry Date',
+        [validators.InputRequired()]
+    )
+    policy_number = ('Policy Number', [
+        validators.InputRequired()
+    ])
+    policy_underwriter = ('Policy Underwriter', [
         validators.InputRequired()
     ])

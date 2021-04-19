@@ -6,15 +6,6 @@
         </span>
       </div>
       <div class="level-right">
-        <!-- <button 
-          class="button is-small is-link" 
-          onclick="activateModal('newCustomerQuote')"
-        >
-          <span class="icon">
-            <i class="fa fa-plus"></i>
-          </span>
-          <span>Add Quote</span>
-        </button> -->
         <div class="dropdown is-right is-hoverable">
           <div class="dropdown-trigger">
             <button class="button is-link is-small" aria-haspopup="true" aria-controls="dropdown-menu4">
@@ -68,16 +59,16 @@
           {% for quotation in quotations %}
           <tr>
             <td>{{ '{:%d-%b-%Y}'.format(quotation.created_at) }}</td>
-            <td>{{ quotation.quotation_type.value }}</td>
+            <td>{{ quotation.product_type.value }}</td>
             <td>{{ "{:,}".format(quotation.sum_insured) }}</td>
             <td>{{ quotation.payment_plan.value }}</td>
-            <td>{{ "{:,}".format(quotation.calculated_premium) }}</td>
-            <td>{{ '{:%d-%b-%Y}'.format(quotation.cover_start_date) }}</td>
+            <td>{{ "{:,}".format(quotation.premium) }}</td>
+            <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
             <td>
               <a 
                 href="{{
                   '/update-customer-quotation/%s?quotation-type=%s' % (
-                    quotation.id, quotation.quotation_type.name
+                    quotation.id, quotation.product_type.name
                   ) 
                 }}" 
                 class="button is-small is-link is-light"
@@ -127,7 +118,8 @@
       <section class="modal-card-body">
         {% with  
             action='/create-customer-quotation/%s' % customer.id, 
-            button_text='Create Quotation' 
+            button_text='Create Quotation',
+            form=customer_motor_private_quotation_form
         %}
           {% include 'forms/private-motor-quotation.html' %}
         {% endwith %}

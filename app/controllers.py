@@ -3,11 +3,10 @@ from app.models.user import User
 from app.models.customer import Customer, CustomerStatus
 from app.models.invoice import Invoice, InvoiceStatus
 from app.models.payment import Payment
-from app.models.covers import Cover
 from app.models.quotation import MotorPrivateQuotation
 from app.models.sale_item import SaleItem
 from app.utils.utils import private_motor_premium_claculator
-from app.utils.enums import QuotationTypes
+from app.utils.enums import ProductTypes
 
 
 def create_user(user_payload):
@@ -233,7 +232,7 @@ def get_customer_payments(customer_id):
 
 def create_motor_private_quote(quotation_payload):
     quotation = MotorPrivateQuotation(**quotation_payload)
-    quotation.calculated_premium = private_motor_premium_claculator(
+    quotation.premium = private_motor_premium_claculator(
         float(quotation.sum_insured)
     )
     try:
@@ -246,24 +245,30 @@ def create_motor_private_quote(quotation_payload):
 
 def get_quote(quotation_type, quotation_id):
     quotation = None
-    if quotation_type == QuotationTypes.MOTOR_PRIVATE.name:
+    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
         quotation = MotorPrivateQuotation.query.filter_by(
             id=quotation_id
         ).first()
     return quotation
 
 
+def get_quotes():
+    quotations = []
+    quotations = MotorPrivateQuotation.query.all()
+    return quotations
+
+
 def update_quote(quotation_type, quotation_id, quotation_payload):
     quotation = None
-    if quotation_type == QuotationTypes.MOTOR_PRIVATE.name:
+    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
         quotation = MotorPrivateQuotation.query.filter_by(
             id=quotation_id
         ).first()
-    
+
     if quotation:
         for key in quotation_payload:
             setattr(quotation, key, quotation_payload[key])
-        quotation.calculated_premium = private_motor_premium_claculator(
+        quotation.premium = private_motor_premium_claculator(
             float(quotation.sum_insured)
         )
         try:
