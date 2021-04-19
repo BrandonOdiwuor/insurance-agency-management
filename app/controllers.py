@@ -3,10 +3,9 @@ from app.models.user import User
 from app.models.customer import Customer, CustomerStatus
 from app.models.invoice import Invoice, InvoiceStatus
 from app.models.payment import Payment
-from app.models.quotation import MotorPrivateQuotation
+from app.models.covers import Cover
+from app.models.quotation import Quotation
 from app.models.sale_item import SaleItem
-from app.utils.utils import private_motor_premium_claculator
-from app.utils.enums import ProductTypes
 
 
 def create_user(user_payload):
@@ -100,9 +99,7 @@ def get_customer(customer_id):
 
 
 def get_customer_quotations(customer_id):
-    return MotorPrivateQuotation.query.filter_by(
-        customer_id=customer_id
-    ).all()
+    return []
 
 
 def get_customer_info(customer_id):
@@ -229,50 +226,19 @@ def get_customer_payments(customer_id):
 # def get_cover:
 #     pass
 
+# def create_quote(quote_payload):
+#     # new_quote = Payment(
+#     #     invoice_id = invoice_payload['invoice'],
+#     #     amount = invoice_payload['amount'],
+#     #     status = invoice_payload['status']
+#     # )
 
-def create_motor_private_quote(quotation_payload):
-    quotation = MotorPrivateQuotation(**quotation_payload)
-    quotation.premium = private_motor_premium_claculator(
-        float(quotation.sum_insured)
-    )
-    try:
-        db.session.add(quotation)
-        db.session.commit()
+#     # try:
+#     #     db.session.add(new_quote)
+#     #     db.session.commit()
 
-    except Exception as exception:
-        print("error : ", exception)
+#     # except Exception as exception:
+#     #     print("error : ",exception)
 
-
-def get_quote(quotation_type, quotation_id):
-    quotation = None
-    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
-        quotation = MotorPrivateQuotation.query.filter_by(
-            id=quotation_id
-        ).first()
-    return quotation
-
-
-def get_quotes():
-    quotations = []
-    quotations = MotorPrivateQuotation.query.all()
-    return quotations
-
-
-def update_quote(quotation_type, quotation_id, quotation_payload):
-    quotation = None
-    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
-        quotation = MotorPrivateQuotation.query.filter_by(
-            id=quotation_id
-        ).first()
-
-    if quotation:
-        for key in quotation_payload:
-            setattr(quotation, key, quotation_payload[key])
-        quotation.premium = private_motor_premium_claculator(
-            float(quotation.sum_insured)
-        )
-        try:
-            db.session.commit()
-
-        except Exception as exception:
-            print("error : ", exception)
+# def get_quote:
+#     pass
