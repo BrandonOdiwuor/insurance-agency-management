@@ -3,9 +3,6 @@ from app.utils.enums import PaymentPlans, ProductTypes
 
 
 class BaseProductMixin(object):
-    product_type = db.Column(
-        db.Enum(ProductTypes), nullable=False
-    )
     policy_start_date = db.Column(
         db.DateTime,  default=db.func.current_timestamp()
     )

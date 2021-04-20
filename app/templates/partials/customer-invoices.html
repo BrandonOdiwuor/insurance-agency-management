@@ -20,8 +20,8 @@
   <table class="table is-fullwidth">
     <thead>
       <tr>
-        <th>Product</th>
-        <th>Price</th>
+        <th>Policy</th>
+        <th>Amount</th>
         <th>Due Date</th>
         <th>Status</th>
         <th>Actions</th>
@@ -31,9 +31,9 @@
       {% if invoices|length > 0 %}
         {% for invoice in invoices %}
         <tr>
-          <td>{{ invoice.item_id }}</td>
-          <td>{{ invoice.price }}</td>
-          <td>{{ invoice.due_at }}</td>
+          <td>{{ invoice.policy.product_type.value }}</td>
+          <td>{{ "{:,}".format(invoice.amount) }}</td>
+          <td>{{ '{:%d-%b-%Y %H:%M}'.format(invoice.due_date) }}</td>
           <td>{{ invoice.status.name }}</td>
           <td>
             <a
@@ -78,7 +78,9 @@
         ></button>
     </header>
     <section class="modal-card-body">
-      {% include 'forms/customer_invoice.html' %}
+      {% with form=customer_invoice_form %}
+        {% include 'forms/customer-invoice.html' %}
+      {% endwith %}
     </section>
   </div>
 </div>

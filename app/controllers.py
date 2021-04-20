@@ -1,10 +1,11 @@
 from app import db
 from app.models.user import User
 from app.models.customer import Customer, CustomerStatus
-from app.models.invoice import Invoice, InvoiceStatus
+from app.models.invoice import Invoice
 from app.models.payment import Payment
-from app.models.quotation import MotorPrivateQuotation
+from app.models.quotation import MotorPrivateQuotation, Quotation
 from app.models.sale_item import SaleItem
+from app.models.policy import Policy, PrivateMotorPolicy
 from app.utils.utils import private_motor_premium_claculator
 from app.utils.enums import ProductTypes
 
@@ -100,7 +101,13 @@ def get_customer(customer_id):
 
 
 def get_customer_quotations(customer_id):
-    return MotorPrivateQuotation.query.filter_by(
+    return Quotation.query.filter_by(
+        customer_id=customer_id
+    ).all()
+
+
+def get_customer_policies(customer_id):
+    return Policy.query.filter_by(
         customer_id=customer_id
     ).all()
 
@@ -109,7 +116,7 @@ def get_customer_info(customer_id):
     customer = get_customer(customer_id)
     invoices = get_customer_invoices(customer_id)
     payments = get_customer_payments(customer_id)
-    policies = []
+    policies = get_customer_policies(customer_id)
     quotations = get_customer_quotations(customer_id)
 
     return dict(
@@ -156,16 +163,10 @@ def edit_customer(customer_id, customer_payload):
 
 
 def create_invoice(invoice_payload):
-    new_invoice = Invoice(
-        item_id=invoice_payload['item'],
-        customer_id=invoice_payload['customer'],
-        price=invoice_payload['price'],
-        due_at=invoice_payload['due_at'],
-        status=InvoiceStatus.ACTIVE
-    )
+    invoice = Invoice(**invoice_payload)
 
     try:
-        db.session.add(new_invoice)
+        db.session.add(invoice)
         db.session.commit()
 
     except Exception as exception:
@@ -223,11 +224,21 @@ def get_customer_payments(customer_id):
         Customer, Invoice.customer_id == Customer.id
     ).filter_by(id=customer_id).all()
 
-# def create_cover:
-#     pass
 
-# def get_cover:
-#     pass
+def create_policy(policy_payload):
+    policy = PrivateMotorPolicy(**policy_payload)
+    policy.premium = private_motor_premium_claculator(
+        float(policy.sum_insured)
+    )
+    try:
+        db.session.add(policy)
+        db.session.commit()
+
+    except Exception as exception:
+        print("error : ", exception)
+
+def get_policies():
+    return Policy.query.all()
 
 
 def create_motor_private_quote(quotation_payload):
@@ -244,18 +255,13 @@ def create_motor_private_quote(quotation_payload):
 
 
 def get_quote(quotation_type, quotation_id):
-    quotation = None
-    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
-        quotation = MotorPrivateQuotation.query.filter_by(
-            id=quotation_id
-        ).first()
-    return quotation
+    return Quotation.query.filter_by(
+        id=quotation_id
+    ).first()
 
 
 def get_quotes():
-    quotations = []
-    quotations = MotorPrivateQuotation.query.all()
-    return quotations
+    return Quotation.query.all()
 
 
 def update_quote(quotation_type, quotation_id, quotation_payload):

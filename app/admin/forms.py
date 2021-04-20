@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, \
+from wtforms import StringField, SelectField, IntegerField,  \
     HiddenField, validators, BooleanField
 from wtforms.fields.html5 import DateTimeLocalField, DecimalField, DateField
+from flask_wtf.file import FileField, FileRequired
 
 
 class SaleItemForm(FlaskForm):
@@ -14,14 +15,10 @@ class SaleItemForm(FlaskForm):
 
 
 class CustomerInvoiceForm(FlaskForm):
-    due_at = DateTimeLocalField('Invoice Due-Date', [
+    due_date = DateTimeLocalField('Invoice Due-Date', [
         validators.InputRequired()])
-    price = DecimalField('Price', [validators.InputRequired()])
-    item = SelectField(
-        'Product',
-        [validators.InputRequired()],
-        coerce=int
-    )
+    amount = DecimalField('Amount', [validators.InputRequired()])
+    policy_id = SelectField('Select Policy', [validators.InputRequired()])
 
 
 class CustomerInvoicePaymentForm(FlaskForm):
@@ -77,15 +74,18 @@ class CompleteMotorForm(BaseMotorForm):
     ])
 
 
-class MotorPrivateCoverForm(CompleteMotorForm):
+class MotorPrivatePolicyForm(CompleteMotorForm):
     policy_status = SelectField("Policy Status")
     policy_expiry_date = DateField(
         'Policy Expiry Date',
         [validators.InputRequired()]
     )
-    policy_number = ('Policy Number', [
+    policy_number = StringField('Policy Number', [
         validators.InputRequired()
     ])
-    policy_underwriter = ('Policy Underwriter', [
+    policy_underwriter = StringField('Policy Underwriter', [
         validators.InputRequired()
     ])
+    log_book_attachment = FileField(
+        'Log Book Attachment', validators=[FileRequired()]
+    )

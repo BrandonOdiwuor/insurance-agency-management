@@ -26,6 +26,8 @@ class Customer(Base):
     attachment_id_front = db.Column(db.String(255), nullable=False)
     attachment_id_back = db.Column(db.String(255), nullable=False)
     invoices = db.relationship('Invoice', backref='customer', lazy=True)
+    quotations = db.relationship('Quotation', backref='customer', lazy=True)
+    policies = db.relationship('Policy', backref='customer', lazy=True)
 
     @property
     def password(self):
