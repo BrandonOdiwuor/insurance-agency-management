@@ -8,7 +8,7 @@
   <table class="table is-fullwidth">
     <thead>
       <tr>
-        <th>Invoice ID</th>
+        <th>Product Type</th>
         <th>Payment Mode</th>
         <th>Amount</th>
         <th>Payment Date</th>
@@ -18,10 +18,10 @@
       {% if payments|length > 0 %}
         {% for payment in payments %}
           <tr>
-            <td>{{ payment.invoice_id }}</td>
+            <td>{{ payment.invoice.policy.product_type.value }}</td>
             <td>{{ payment.payment_mode.value }}</td>
-            <td>{{ payment.amount }}</td>
-            <td>{{ payment.created_at }}</td>
+            <td>{{ "{:,}".format(payment.amount) }}</td>
+            <td>{{ '{:%d-%b-%Y}'.format(payment.created_at) }}</td>
           </tr>
         {% endfor %}
       {% else %}

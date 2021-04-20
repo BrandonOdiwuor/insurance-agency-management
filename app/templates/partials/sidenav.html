@@ -21,6 +21,12 @@
       </li>
       <li>
         <a 
+          href="/policies"
+          {% if request.path == '/policies' %} class="is-active"{% endif %}
+        > Policies </a>
+      </li>
+      <li>
+        <a 
           href="/quotations"
           {% if request.path == '/quotations' %} class="is-active"{% endif %}
         > Quotations </a>
@@ -45,12 +51,6 @@
             request.url_rule.endpoint == 'admin.register_product' 
           %} class="is-active"{% endif %}
         > Products </a>
-      </li>
-      <li>
-        <a 
-          href="/covers"
-          {% if request.path == '/covers' %} class="is-active"{% endif %}
-        > Covers </a>
       </li>
     </ul>
   </nav>  

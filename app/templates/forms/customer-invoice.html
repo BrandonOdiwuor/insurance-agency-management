@@ -1,0 +1,45 @@
+<form method="POST" action="{{ '/create-customer-invoice/%s' % customer.id }}">
+  {{ form.csrf_token }}
+  <div class="field">
+    <div class="field">
+      {{ form.policy_id.label(class="label") }}
+      <div class="control">
+        {{
+          form.policy_id(
+            placeholder="Due Date...", 
+            class="input", 
+            style="margin-top:1em;"
+          )
+        }}
+      </div>
+    </div>
+    <div class="control">
+      {{ form.amount.label(class="label") }}
+      {{
+        form.amount(
+          placeholder="Amount...", 
+          class="input",
+          style="margin-top:1em;"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.due_date.label(class="label") }}
+    <div class="control">
+      {{
+        form.due_date(
+          placeholder="Due Date...", 
+          class="input", 
+          style="margin-top:1em;"
+        )
+      }}
+    </div>
+  </div>
+  <button type="submit" name="submit" class="button is-fullwidth is-primary mt-4">
+    <span class="icon">
+      <i class="fa fa-plus"></i>
+    </span>
+    <span>Create Invoice</span>
+  </button>
+</form>
