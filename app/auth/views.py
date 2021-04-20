@@ -70,7 +70,7 @@ def login():
 
         if user:
             session['authorization'] = 'Bearer %s' % user.token()
-            return redirect(url_for('admin.dashboard'))
+            return redirect(url_for('admin.customers'))
         else:
             form.email.errors.append('Wrong email or password')
 
