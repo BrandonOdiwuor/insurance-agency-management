@@ -4,7 +4,9 @@
   aria-label="main navigation"
 >
   <div class="navbar-brand">
-    <a class="navbar-item" href="/dashboard">
+    <a class="navbar-item" href="{{ 
+        '/dashboard' if 'authorization' in session else '/'
+    }}">
       <span class="has-text-weight-bold is-size-5 has-text-primary">
         Granate
       </span>
@@ -14,14 +16,15 @@
       class="navbar-burger"
       aria-label="menu"
       aria-expanded="false"
-      data-target="navbarBasicExample"
+      data-target="main-navbar"
     >
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
-  <div id="navbarBasicExample" class="navbar-menu">
+  <div id="main-navbar" class="navbar-menu">
+    {% if 'authorization' in session %}
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -34,5 +37,17 @@
         </div>
       </div>
     </div>
+    {% else %}
+    <div class="navbar-end">      
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary is-outlined" href="/login"> Admin </a>
+            <a class="button is-primary" href="customer-login"> 
+              Log in 
+            </a>
+          </div>
+        </div>
+    </div>
+    {% endif %}
   </div>
 </nav>

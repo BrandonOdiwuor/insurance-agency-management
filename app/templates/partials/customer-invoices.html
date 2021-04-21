@@ -96,7 +96,9 @@
         ></button>
     </header>
     <section class="modal-card-body">
-      {% include 'forms/customer_invoice_payment.html' %}
+      {% with form=customer_invoice_payment_form %}
+        {% include 'forms/customer-invoice-payment.html' %}
+      {% endwith %}
     </section>
   </div>
 </div>

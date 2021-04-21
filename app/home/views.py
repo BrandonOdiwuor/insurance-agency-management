@@ -15,11 +15,11 @@ def about_us():
     """
     Render the about_us template on the /about-us route
     """
-    return render_template('home/about_us.html')
+    return render_template('home/about-us.html')
 
 @home.route('/contact-us')
 def contact_us():
     """
     Render the contact_us template on the /contact-us route
     """
-    return render_template('home/contact_us.html')
+    return render_template('home/contact-us.html')
