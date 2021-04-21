@@ -1,0 +1,38 @@
+<form 
+    method="POST" 
+    action="{{ '/create-customer-invoice-payment/%s' % customer.id }}"
+>
+    {{ form.csrf_token }}
+    {{
+        form.invoice_id(
+            id="customerInvoicePaymentID",
+            placeholder="Invoice ID", 
+            class="input"
+        )
+    }}
+    <div class="field">
+        {{ form.payment_mode.label(class="label") }}
+        <div class="control">
+          {{ 
+            form.payment_mode(placeholder="Payment Mode", class="input")
+          }}
+        </div>
+    </div>
+    <div class="field">
+        {{ form.amount.label(class="label") }}
+        <div class="control">
+          {{ 
+            form.amount(
+                placeholder="Amount", 
+                class="input"
+            )
+          }}
+        </div>
+    </div>
+    <button type="submit" name="submit" class="button is-fullwidth is-primary mt-4">
+        <span class="icon">
+            <i class="fa fa-plus"></i>
+        </span>
+        <span>Add Payment</span>
+    </button>
+</form>
