@@ -4,11 +4,11 @@ from app.models.customer import Customer, CustomerStatus
 from app.models.invoice import Invoice
 from app.models.payment import Payment
 from app.models.quotation import MotorPrivateQuotation, Quotation, \
-    MotorCommercialQuotation
+    MotorCommercialQuotation, MedicalInpatientQuotation
 from app.models.sale_item import SaleItem
 from app.models.policy import Policy, PrivateMotorPolicy, CommercialMotorPolicy
 from app.utils.utils import private_motor_premium_claculator, \
-    commercial_motor_premium_claculator
+    commercial_motor_premium_claculator, medical_inpatient_premium_claculator
 from app.utils.enums import ProductTypes
 
 
@@ -283,16 +283,22 @@ def update_policy(policy_id, policy_payload):
             print("error : ", exception)
 
 
-def create_motor_quote(quotation_payload):
+def create_quote(quotation_payload):
     quotation = None
-    if quotation_payload['product_type'] == ProductTypes.MOTOR_PRIVATE:
+    product_type = quotation_payload['product_type']
+    if product_type == ProductTypes.MOTOR_PRIVATE:
         quotation = MotorPrivateQuotation(**quotation_payload)
         quotation.premium = private_motor_premium_claculator(
             float(quotation.sum_insured)
         )
-    else:
+    elif product_type == ProductTypes.MOTOR_COMMERCIAL:
         quotation = MotorCommercialQuotation(**quotation_payload)
         quotation.premium = commercial_motor_premium_claculator(
+            float(quotation.sum_insured)
+        )
+    elif product_type == ProductTypes.MEDICAL_INPATIENT:
+        quotation = MedicalInpatientQuotation(**quotation_payload)
+        quotation.premium = medical_inpatient_premium_claculator(
             float(quotation.sum_insured)
         )
     quotation.premium = round(quotation.premium, 2)
@@ -304,7 +310,7 @@ def create_motor_quote(quotation_payload):
         print("error : ", exception)
 
 
-def get_quote(quotation_type, quotation_id):
+def get_quote(quotation_id):
     return Quotation.query.filter_by(
         id=quotation_id
     ).first()
@@ -318,13 +324,21 @@ def update_quote(quotation_id, quotation_payload):
     quotation = Quotation.query.filter_by(
         id=quotation_id
     ).first()
-
     if quotation:
         for key in quotation_payload:
             setattr(quotation, key, quotation_payload[key])
-        quotation.premium = private_motor_premium_claculator(
-            float(quotation.sum_insured)
-        )
+        if quotation.product_type == ProductTypes.MOTOR_PRIVATE:
+            quotation.premium = private_motor_premium_claculator(
+                float(quotation.sum_insured)
+            )
+        elif quotation.product_type == ProductTypes.MOTOR_COMMERCIAL:
+            quotation.premium = commercial_motor_premium_claculator(
+                float(quotation.sum_insured)
+            )
+        elif quotation.product_type == ProductTypes.MEDICAL_INPATIENT:
+            quotation.premium = medical_inpatient_premium_claculator(
+                float(quotation.sum_insured)
+            )
         try:
             db.session.commit()
 

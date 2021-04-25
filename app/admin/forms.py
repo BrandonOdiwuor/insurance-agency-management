@@ -78,6 +78,19 @@ class MotorQuotationForm(BaseProductForm, BaseMotorForm):
     pass
 
 
+class BaseMedicalForm(FlaskForm):
+    pre_existing_condition = BooleanField("Do you have any \
+        pre-existing medical condition?")
+    date_of_birth = DateField(
+        'DOB of Applicant',
+        [validators.InputRequired()]
+    )
+
+
+class MedicalQuotationForm(BaseProductForm, BaseMedicalForm):
+    pass
+
+
 class PolicyForm(BaseProductForm):
     policy_status = SelectField("Policy Status")
     policy_expiry_date = DateField(
@@ -91,7 +104,7 @@ class PolicyForm(BaseProductForm):
         validators.InputRequired()
     ])
     log_book_attachment = FileField(
-        'Log Book Attachment'  #, validators=[FileRequired()]
+        'Log Book Attachment'  # , validators=[FileRequired()]
     )
 
 

@@ -31,7 +31,11 @@
             >
               Motor Commercial
             </a>
-            <a href="#" class="dropdown-item">
+            <a
+              href="#" 
+              class="dropdown-item" 
+              onclick="activateModal('medicalInpatientQuoteModal')"
+            >
               Medical Inpatient
             </a>
             <a href="#" class="dropdown-item">
@@ -67,9 +71,7 @@
           <td>
             <a 
               href="{{
-                '/update-customer-quotation/%s?quotation-type=%s' % (
-                  quotation.id, quotation.product_type.name
-                ) 
+                '/update-customer-quotation/%s' % (quotation.id) 
               }}" 
               class="button is-small is-link is-light"
             >
@@ -144,6 +146,28 @@
         form=customer_motor_commercial_quotation_form
       %}
         {% include 'forms/motor-quotation.html' %}
+      {% endwith %}
+    </section>
+  </div>
+</div>
+<div id="medicalInpatientQuoteModal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Medical Inpatient Quote</p>
+      <button 
+        class="delete" 
+        aria-label="close"
+        onclick="deactivateModal('medicalInpatientQuoteModal')"
+        ></button>
+    </header>
+    <section class="modal-card-body">
+      {% with  
+        action='/create-customer-quotation/%s' % customer.id, 
+        button_text='Create Quotation',
+        form=customer_medical_inpatient_quotation_form
+      %}
+        {% include 'forms/medical-quotation.html' %}
       {% endwith %}
     </section>
   </div>
