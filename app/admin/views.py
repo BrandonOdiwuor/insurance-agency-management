@@ -6,10 +6,11 @@ from app.utils.enums import PaymentModes, MotorPolicyTypes, \
 from app.controllers import get_customers, get_customer_info, \
     update_customer_status, get_customer_policies, create_item_of_sale, \
     get_invoices, create_invoice, create_payment, get_payments, \
-    create_motor_private_quote, get_quote, update_quote, get_quotes, \
+    create_motor_quote, get_quote, update_quote, get_quotes, \
     create_policy, get_items_of_sale, get_policies
 from .forms import SaleItemForm, CustomerInvoiceForm, BaseMotorForm, \
     CustomerInvoicePaymentForm, MotorPrivatePolicyForm
+from .utils import motorQuotationForm
 
 
 @admin.route('/dashboard', methods=['GET'])
@@ -32,25 +33,20 @@ def customer(customer_id):
     customer_invoice_form = CustomerInvoiceForm()
     customer_invoice_form.policy_id.choices = [
         (
-            policy.id, "%s - %s" % (policy.product_type.value, "{:,}".format(policy.premium))
+            policy.id, "%s - %s" % (policy.product_type.value,
+                                    "{:,}".format(policy.premium))
         ) for policy in get_customer_policies(customer_id)
     ]
     customer_invoice_payment_form = CustomerInvoicePaymentForm()
     customer_invoice_payment_form.payment_mode.choices = [
         (payment_mode.name, payment_mode.value) for payment_mode in PaymentModes
     ]
-    customer_motor_private_quotation_form = BaseMotorForm(
-        product_type=ProductTypes.MOTOR_PRIVATE.name
+    customer_motor_private_quotation_form = motorQuotationForm(
+        ProductTypes.MOTOR_PRIVATE
     )
-    customer_motor_private_quotation_form.motor_policy_type.choices = [
-        (policy_type.name, policy_type.value) for policy_type in MotorPolicyTypes
-    ]
-    customer_motor_private_quotation_form.motor_year_of_manufacture.choices = [
-        (year, year) for year in range(1995, 2022)
-    ]
-    customer_motor_private_quotation_form.payment_plan.choices = [
-        (payment_plan.name, payment_plan.value) for payment_plan in PaymentPlans
-    ]
+    customer_motor_commercial_quotation_form = motorQuotationForm(
+        ProductTypes.MOTOR_COMMERCIAL
+    )
     customer_private_motor_policy_form = MotorPrivatePolicyForm(
         product_type=ProductTypes.MOTOR_PRIVATE.name
     )
@@ -70,6 +66,7 @@ def customer(customer_id):
         customer_invoice_form=customer_invoice_form,
         customer_invoice_payment_form=customer_invoice_payment_form,
         customer_motor_private_quotation_form=customer_motor_private_quotation_form,
+        customer_motor_commercial_quotation_form=customer_motor_commercial_quotation_form,
         customer_private_motor_policy_form=customer_private_motor_policy_form
     )
     customer_payload.update(customer_info)
@@ -83,7 +80,9 @@ def customer(customer_id):
 @login_required
 def create_customer_quotation(customer_id):
     quotation_payload = dict(
-        product_type=request.form['product_type'],
+        product_type=ProductTypes[
+            request.form['product_type'].split('.')[1]
+        ],
         sum_insured=request.form['sum_insured'],
         recent_profesional_evaluation=True if request.form[
             'recent_profesional_evaluation'
@@ -97,7 +96,9 @@ def create_customer_quotation(customer_id):
         payment_plan=request.form['payment_plan'],
         customer_id=customer_id
     )
-    create_motor_private_quote(quotation_payload)
+    if quotation_payload['product_type'] == ProductTypes.MOTOR_PRIVATE or \
+            quotation_payload['product_type'] == ProductTypes.MOTOR_COMMERCIAL:
+        create_motor_quote(quotation_payload)
     return redirect(url_for('admin.customer', customer_id=customer_id))
 
 
@@ -109,7 +110,6 @@ def create_customer_quotation(customer_id):
 def update_customer_quotation(quotation_id):
     quotation_type = request.args.get('quotation-type', '')
     quotation = get_quote(quotation_type, quotation_id)
-    print(type(quotation.motor_policy_type))
     form = BaseMotorForm(obj=quotation)
     form.motor_policy_type.choices = [
         (policy_type, policy_type.value) for policy_type in MotorPolicyTypes
@@ -139,7 +139,7 @@ def update_customer_quotation(quotation_id):
                 request.form['payment_plan'].split('.')[1]
             ]
         )
-        update_quote(quotation_type, quotation_id, quotation_payload)
+        update_quote(quotation_id, quotation_payload)
         return redirect(url_for('admin.customer', customer_id=quotation.customer_id))
     return render_template(
         "admin/update-quotation.html",
@@ -177,9 +177,10 @@ def create_customer_policy(customer_id):
     create_policy(policy_payload)
     return redirect(url_for('admin.customer', customer_id=customer_id))
 
+
 @admin.route('/create-customer-invoice/<string:customer_id>', methods=['POST'])
 @login_required
-def create_customer_ivoice(customer_id):    
+def create_customer_ivoice(customer_id):
     invoice_payload = dict(
         policy_id=request.form['policy_id'],
         amount=request.form['amount'],

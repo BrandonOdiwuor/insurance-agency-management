@@ -3,10 +3,12 @@ from app.models.user import User
 from app.models.customer import Customer, CustomerStatus
 from app.models.invoice import Invoice
 from app.models.payment import Payment
-from app.models.quotation import MotorPrivateQuotation, Quotation
+from app.models.quotation import MotorPrivateQuotation, Quotation, \
+    MotorCommercialQuotation
 from app.models.sale_item import SaleItem
 from app.models.policy import Policy, PrivateMotorPolicy
-from app.utils.utils import private_motor_premium_claculator
+from app.utils.utils import private_motor_premium_claculator, \
+    commercial_motor_premium_claculator
 from app.utils.enums import ProductTypes
 
 
@@ -241,11 +243,19 @@ def get_policies():
     return Policy.query.all()
 
 
-def create_motor_private_quote(quotation_payload):
-    quotation = MotorPrivateQuotation(**quotation_payload)
-    quotation.premium = private_motor_premium_claculator(
-        float(quotation.sum_insured)
-    )
+def create_motor_quote(quotation_payload):
+    quotation = None
+    if quotation_payload['product_type'] == ProductTypes.MOTOR_PRIVATE:
+        quotation = MotorPrivateQuotation(**quotation_payload)
+        quotation.premium = private_motor_premium_claculator(
+            float(quotation.sum_insured)
+        )
+    else:
+        quotation = MotorCommercialQuotation(**quotation_payload)
+        quotation.premium = commercial_motor_premium_claculator(
+            float(quotation.sum_insured)
+        )
+    quotation.premium = round(quotation.premium, 2)
     try:
         db.session.add(quotation)
         db.session.commit()
@@ -264,12 +274,10 @@ def get_quotes():
     return Quotation.query.all()
 
 
-def update_quote(quotation_type, quotation_id, quotation_payload):
-    quotation = None
-    if quotation_type == ProductTypes.MOTOR_PRIVATE.name:
-        quotation = MotorPrivateQuotation.query.filter_by(
-            id=quotation_id
-        ).first()
+def update_quote(quotation_id, quotation_payload):
+    quotation = Quotation.query.filter_by(
+        id=quotation_id
+    ).first()
 
     if quotation:
         for key in quotation_payload:
