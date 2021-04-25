@@ -1,12 +1,13 @@
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text
 from app.models import Base
-from app.models.mixins.motor_mixins import MotorPolicyMixin
+from app.models.mixins.motor_mixins import MotorMixin
+from app.models.mixins import BasePolicyMixin
 from app import db
 from app.utils.enums import ProductTypes
 
 
-class Policy(Base, MotorPolicyMixin):
+class Policy(Base, BasePolicyMixin):
 
     __tablename__ = 'policies'
 
@@ -25,20 +26,40 @@ class Policy(Base, MotorPolicyMixin):
     }
 
 
-class PrivateMotorPolicy(Policy):
+class PrivateMotorPolicy(Policy, MotorMixin):
 
     __tablename__ = 'private_motor_policies'
 
     id = db.Column(
-        UUID(as_uuid=True), 
+        UUID(as_uuid=True),
         db.ForeignKey('policies.id'),
-        primary_key=True, 
+        primary_key=True,
         server_default=text("uuid_generate_v4()")
     )
     log_book_attachment = db.Column(db.String(255), nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity': ProductTypes.MOTOR_PRIVATE,
+    }
+
+    def __repr__(self):
+        return '<MotorPrivatePolicy %r>' % (self.id)
+
+
+class CommercialMotorPolicy(Policy, MotorMixin):
+
+    __tablename__ = 'commercial_motor_policies'
+
+    id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey('policies.id'),
+        primary_key=True,
+        server_default=text("uuid_generate_v4()")
+    )
+    log_book_attachment = db.Column(db.String(255), nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_identity': ProductTypes.MOTOR_COMMERCIAL,
     }
 
     def __repr__(self):

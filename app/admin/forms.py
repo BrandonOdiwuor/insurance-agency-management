@@ -41,7 +41,7 @@ class BaseProductForm(FlaskForm):
     payment_plan = SelectField('Desired Payment Plan')
 
 
-class BaseMotorForm(BaseProductForm):
+class BaseMotorForm(FlaskForm):
     motor_model = StringField('Vehicle Model?', [
         validators.InputRequired()
     ])
@@ -74,7 +74,11 @@ class CompleteMotorForm(BaseMotorForm):
     ])
 
 
-class MotorPrivatePolicyForm(CompleteMotorForm):
+class MotorQuotationForm(BaseProductForm, BaseMotorForm):
+    pass
+
+
+class PolicyForm(BaseProductForm):
     policy_status = SelectField("Policy Status")
     policy_expiry_date = DateField(
         'Policy Expiry Date',
@@ -87,5 +91,9 @@ class MotorPrivatePolicyForm(CompleteMotorForm):
         validators.InputRequired()
     ])
     log_book_attachment = FileField(
-        'Log Book Attachment', validators=[FileRequired()]
+        'Log Book Attachment'  #, validators=[FileRequired()]
     )
+
+
+class MotorPolicyForm(PolicyForm, BaseMotorForm):
+    pass
