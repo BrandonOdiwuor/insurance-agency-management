@@ -12,13 +12,13 @@
                 <li><a href="/customers">Customers</a></li>
                 <li><a href="{{ '/customer/%s' % customer_id }}">Customer</a></li>
                 <li class="is-active">
-                    <a href="#" aria-current="page">Update Quotation</a>
+                    <a href="#" aria-current="page">Update Policy</a>
                 </li>
             </ul>
         </nav>
         <div class="box">
             {% with button_text='Update Quotation' %}
-                {% include 'forms/motor-quotation.html' %}
+                {% include 'forms/motor-policy.html' %}
             {% endwith %}
         </div>
     </div>

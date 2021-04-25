@@ -121,7 +121,7 @@
           button_text='Create Quotation',
           form=customer_motor_private_quotation_form
       %}
-        {% include 'forms/private-motor-quotation.html' %}
+        {% include 'forms/motor-quotation.html' %}
       {% endwith %}
     </section>
   </div>
@@ -138,6 +138,13 @@
         ></button>
     </header>
     <section class="modal-card-body">
+      {% with  
+        action='/create-customer-quotation/%s' % customer.id, 
+        button_text='Create Quotation',
+        form=customer_motor_commercial_quotation_form
+      %}
+        {% include 'forms/motor-quotation.html' %}
+      {% endwith %}
     </section>
   </div>
 </div>

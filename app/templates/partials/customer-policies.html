@@ -18,12 +18,15 @@
             <a 
               href="#" 
               class="dropdown-item" 
-              onclick="activateModal('privateMotorPlanModal')"
+              onclick="activateModal('privateMotorPolicyModal')"
             >
                 Motor Private
             </a>
-            <a
-              href="#" class="dropdown-item" >
+            <a 
+              href="#" 
+              class="dropdown-item" 
+              onclick="activateModal('commercialMotorPolicyModal')"
+            >
               Motor Commercial
             </a>
             <a href="#" class="dropdown-item">
@@ -60,12 +63,15 @@
             <td>{{ policy.policy_status.value }}</td>
             <td>{{ policy.policy_underwriter }}</td>
             <td>
-              <button class="button is-small is-link is-outlined">
-                <span class="icon">
-                  <i class="fa fa-eye"></i>
-                </span>
-                <span>View Policy</span>
-              </button>
+              <a 
+                href="{{ '/update-customer-policy/%s' % (policy.id) }}" 
+                class="button is-small is-link is-outlined"
+              >
+                  <span class="icon">
+                    <i class="fa fa-eye"></i>
+                  </span>
+                  <span>View & Edit Policy </span>
+              </a>
             </td>
             <!-- <td>
               <button class="button is-small is-link">
@@ -90,7 +96,7 @@
   </table>
 </div>
 
-<div id="privateMotorPlanModal" class="modal">
+<div id="privateMotorPolicyModal" class="modal">
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
@@ -98,7 +104,7 @@
       <button 
         class="delete" 
         aria-label="close"
-        onclick="deactivateModal('privateMotorPlanModal')"
+        onclick="deactivateModal('privateMotorPolicyModal')"
         ></button>
     </header>
     <section class="modal-card-body">
@@ -107,7 +113,30 @@
           button_text='Create Policy',
           form=customer_private_motor_policy_form
       %}
-        {% include 'forms/private-motor-policy.html' %}
+        {% include 'forms/motor-policy.html' %}
+      {% endwith %}
+    </section>
+  </div>
+</div>
+
+<div id="commercialMotorPolicyModal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Commercial Motor Policy</p>
+      <button 
+        class="delete" 
+        aria-label="close"
+        onclick="deactivateModal('commercialMotorPolicyModal')"
+        ></button>
+    </header>
+    <section class="modal-card-body">
+      {% with  
+          action='/create-customer-policy/%s' % customer.id, 
+          button_text='Create Policy',
+          form=customer_commercial_motor_policy_form
+      %}
+        {% include 'forms/motor-policy.html' %}
       {% endwith %}
     </section>
   </div>

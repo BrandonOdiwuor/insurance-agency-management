@@ -21,12 +21,3 @@ class MotorMixin(BaseProductMixin, MotorRiskDetailMixin):
     recent_profesional_evaluation = db.Column(
         db.Boolean, nullable=False, default=False
     )
-
-
-class MotorPolicyMixin(MotorMixin):
-    policy_status = db.Column(db.Enum(PolicyStatus), nullable=False)
-    policy_expiry_date = db.Column(
-        db.DateTime,  default=db.func.current_timestamp()
-    )
-    policy_number = db.Column(db.String(255), nullable=False)
-    policy_underwriter = db.Column(db.String(255), nullable=False)
