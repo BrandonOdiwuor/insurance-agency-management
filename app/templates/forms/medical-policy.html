@@ -1,0 +1,129 @@
+{% with %}
+  {% include 'partials/form-errors.html' %}
+{%endwith %}
+<form method="POST" action="{{ action }}">
+  {{ form.csrf_token }}
+  <div class="field">
+    <div class="control">
+      {{
+        form.product_type
+      }}
+    </div>
+  </div>
+  <div class="field">
+    <div class="label">
+        ANNUAL Cover Limit (KShs)?
+    </div>
+    <div class="control">
+      {{
+        form.sum_insured(
+          placeholder="Annual cover limit...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        {{ form.pre_existing_condition.label(class="label") }}
+        {{ form.pre_existing_condition(type="checkbox") }}
+      </label>
+    </div>
+  </div>
+  <div class="field">
+    {{ form.date_of_birth.label(class="label") }}
+    <div class="control">
+      {{
+        form.date_of_birth(
+          placeholder="Date of Birth...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.policy_start_date.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.policy_start_date(
+          placeholder="Policy Start...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.policy_expiry_date.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.policy_expiry_date(
+          placeholder="Policy Expiry...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ 
+      form.payment_plan.label(
+        class="label"
+      ) 
+    }}
+    <div class="control">
+      {{
+        form.payment_plan(
+          placeholder="Payment Plan...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.policy_number.label(class="label") }}
+    <div class="control">
+      {{
+        form.policy_number(
+          placeholder="Policy Number...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.policy_underwriter.label(class="label") }}
+    <div class="control">
+      {{
+        form.policy_underwriter(
+          placeholder="Policy Underwriter...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <div class="field">
+    {{ form.policy_status.label(class="label") }}
+    <div class="control">
+      {{
+        form.policy_status(
+          placeholder="Policy Status...", 
+          class="input"
+        )
+      }}
+    </div>
+  </div>
+  <button type="submit" name="submit" class="button is-fullwidth is-primary mt-4">
+    <span class="icon">
+      <i class="fa fa-plus"></i>
+    </span>
+    <span>{{button_text}}</span>
+  </button>
+</form>
