@@ -103,10 +103,13 @@ class PolicyForm(BaseProductForm):
     policy_underwriter = StringField('Policy Underwriter', [
         validators.InputRequired()
     ])
+
+
+class MotorPolicyForm(PolicyForm, BaseMotorForm):
     log_book_attachment = FileField(
         'Log Book Attachment'  # , validators=[FileRequired()]
     )
 
 
-class MotorPolicyForm(PolicyForm, BaseMotorForm):
+class MedicalPolicyForm(PolicyForm, BaseMedicalForm):
     pass

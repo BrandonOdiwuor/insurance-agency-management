@@ -9,8 +9,10 @@ from app.controllers import get_customers, get_customer_info, \
     create_quote, get_quote, update_quote, get_quotes, \
     create_policy, get_items_of_sale, get_policies, get_policy, update_policy
 from .forms import SaleItemForm, CustomerInvoiceForm, MotorQuotationForm, \
-    CustomerInvoicePaymentForm, MotorPolicyForm, MedicalQuotationForm
-from .utils import motorQuotationForm, motorPolicyForm, medicalQuotationForm
+    CustomerInvoicePaymentForm, MotorPolicyForm, MedicalQuotationForm, \
+    MedicalPolicyForm
+from .utils import motorQuotationForm, motorPolicyForm, medicalQuotationForm, \
+    medicalPolicyForm
 
 
 @admin.route('/dashboard', methods=['GET'])
@@ -44,7 +46,7 @@ def customer(customer_id):
     customer_motor_private_quotation_form = motorQuotationForm(
         MotorQuotationForm(product_type=ProductTypes.MOTOR_PRIVATE)
     )
-    customer_motor_commercial_quotation_form  = motorQuotationForm(
+    customer_motor_commercial_quotation_form = motorQuotationForm(
         MotorQuotationForm(product_type=ProductTypes.MOTOR_COMMERCIAL)
     )
     customer_medical_inpatient_quotation_form = medicalQuotationForm(
@@ -59,6 +61,9 @@ def customer(customer_id):
     customer_commercial_motor_policy_form = motorPolicyForm(
         MotorPolicyForm(product_type=ProductTypes.MOTOR_COMMERCIAL)
     )
+    customer_medical_inpatient_policy_form = medicalPolicyForm(
+        MedicalPolicyForm(product_type=ProductTypes.MEDICAL_INPATIENT)
+    )
     customer_payload = dict(
         customer_invoice_form=customer_invoice_form,
         customer_invoice_payment_form=customer_invoice_payment_form,
@@ -67,7 +72,8 @@ def customer(customer_id):
         customer_medical_inpatient_quotation_form=customer_medical_inpatient_quotation_form,
         customer_medical_outpatient_quotation_form=customer_medical_outpatient_quotation_form,
         customer_private_motor_policy_form=customer_private_motor_policy_form,
-        customer_commercial_motor_policy_form=customer_commercial_motor_policy_form
+        customer_commercial_motor_policy_form=customer_commercial_motor_policy_form,
+        customer_medical_inpatient_policy_form=customer_medical_inpatient_policy_form
     )
     customer_payload.update(customer_info)
     return render_template(
@@ -79,8 +85,8 @@ def customer(customer_id):
 @admin.route('/create-customer-quotation/<string:customer_id>', methods=['POST'])
 @login_required
 def create_customer_quotation(customer_id):
-    product_type=ProductTypes[
-            request.form['product_type'].split('.')[1]
+    product_type = ProductTypes[
+        request.form['product_type'].split('.')[1]
     ]
     quotation_payload = None
     if product_type == ProductTypes.MOTOR_PRIVATE or product_type == ProductTypes.MOTOR_COMMERCIAL:
@@ -176,26 +182,47 @@ def update_customer_quotation(quotation_id):
 @admin.route('/create-customer-policy/<string:customer_id>', methods=['POST'])
 @login_required
 def create_customer_policy(customer_id):
-    policy_payload = dict(
-        product_type=ProductTypes[request.form['product_type'].split('.')[1]],
-        sum_insured=request.form['sum_insured'],
-        recent_profesional_evaluation=True if request.form[
-            'recent_profesional_evaluation'
-        ] == 'y' else False,
-        motor_policy_type=MotorPolicyTypes[request.form['motor_policy_type']],
-        motor_use=request.form['motor_use'],
-        motor_model=request.form['motor_model'],
-        motor_make=request.form['motor_make'],
-        motor_year_of_manufacture=request.form['motor_year_of_manufacture'],
-        policy_start_date=request.form['policy_start_date'],
-        payment_plan=PaymentPlans[request.form['payment_plan']],
-        policy_status=PolicyStatus[request.form['policy_status']],
-        policy_expiry_date=request.form['policy_expiry_date'],
-        policy_number=request.form['policy_number'],
-        policy_underwriter=request.form['policy_underwriter'],
-        log_book_attachment=save_file(request.files['log_book_attachment']),
-        customer_id=customer_id
-    )
+    product_type = ProductTypes[
+        request.form['product_type'].split('.')[1]
+    ]
+    policy_payload = None
+    if product_type == ProductTypes.MOTOR_PRIVATE or product_type == ProductTypes.MOTOR_COMMERCIAL:
+        policy_payload = dict(
+            product_type=product_type,
+            sum_insured=request.form['sum_insured'],
+            recent_profesional_evaluation=True if request.form[
+                'recent_profesional_evaluation'
+            ] == 'y' else False,
+            motor_policy_type=MotorPolicyTypes[request.form['motor_policy_type']],
+            motor_use=request.form['motor_use'],
+            motor_model=request.form['motor_model'],
+            motor_make=request.form['motor_make'],
+            motor_year_of_manufacture=request.form['motor_year_of_manufacture'],
+            policy_start_date=request.form['policy_start_date'],
+            payment_plan=PaymentPlans[request.form['payment_plan']],
+            policy_status=PolicyStatus[request.form['policy_status']],
+            policy_expiry_date=request.form['policy_expiry_date'],
+            policy_number=request.form['policy_number'],
+            policy_underwriter=request.form['policy_underwriter'],
+            log_book_attachment=save_file(request.files['log_book_attachment']),
+            customer_id=customer_id
+        )
+    else:
+        policy_payload = dict(
+            product_type=product_type,
+            sum_insured=request.form['sum_insured'],
+            pre_existing_condition=True if request.form[
+                'pre_existing_condition'
+            ] == 'y' else False,
+            date_of_birth=request.form['date_of_birth'],
+            policy_start_date=request.form['policy_start_date'],
+            payment_plan=request.form['payment_plan'],
+            policy_status=PolicyStatus[request.form['policy_status']],
+            policy_expiry_date=request.form['policy_expiry_date'],
+            policy_number=request.form['policy_number'],
+            policy_underwriter=request.form['policy_underwriter'],
+            customer_id=customer_id
+        )
     create_policy(policy_payload)
     return redirect(url_for('admin.customer', customer_id=customer_id))
 
@@ -207,39 +234,67 @@ def create_customer_policy(customer_id):
 @login_required
 def update_customer_policy(policy_id):
     policy = get_policy(policy_id)
-    policy.policy_status = policy.policy_status.name
     policy.payment_plan = policy.payment_plan.name
-    policy.motor_policy_type = policy.motor_policy_type.name
-    form = motorPolicyForm(MotorPolicyForm(obj=policy))
-    if form.validate_on_submit():
-        policy_payload = dict(
-            sum_insured=request.form['sum_insured'],
-            recent_profesional_evaluation=True if request.form[
-                'recent_profesional_evaluation'
-            ] == 'y' else False,
-            motor_policy_type=MotorPolicyTypes[
-                request.form['motor_policy_type']
-            ],
-            motor_use=request.form['motor_use'],
-            motor_model=request.form['motor_model'],
-            motor_make=request.form['motor_make'],
-            motor_year_of_manufacture=request.form['motor_year_of_manufacture'],
-            policy_start_date=request.form['policy_start_date'],
-            payment_plan=PaymentPlans[
-                request.form['payment_plan']
-            ],
-            policy_status=PolicyStatus[
-                request.form['policy_status']
-            ]
-        )
-        update_policy(policy_id, policy_payload)
-        return redirect(url_for('admin.customer', customer_id=policy.customer_id))
+    if policy.product_type == ProductTypes.MOTOR_PRIVATE or policy.product_type == ProductTypes.MOTOR_COMMERCIAL:
+        policy.policy_status = policy.policy_status.name 
+        policy.motor_policy_type = policy.motor_policy_type.name
+        form = motorPolicyForm(MotorPolicyForm(obj=policy))
+        if form.validate_on_submit():
+            policy_payload = dict(
+                sum_insured=request.form['sum_insured'],
+                recent_profesional_evaluation=True if request.form[
+                    'recent_profesional_evaluation'
+                ] == 'y' else False,
+                motor_policy_type=MotorPolicyTypes[
+                    request.form['motor_policy_type']
+                ],
+                motor_use=request.form['motor_use'],
+                motor_model=request.form['motor_model'],
+                motor_make=request.form['motor_make'],
+                motor_year_of_manufacture=request.form['motor_year_of_manufacture'],
+                policy_start_date=request.form['policy_start_date'],
+                payment_plan=PaymentPlans[
+                    request.form['payment_plan']
+                ],
+                policy_status=PolicyStatus[
+                    request.form['policy_status']
+                ],
+                policy_expiry_date=request.form['policy_expiry_date'],
+                policy_number=request.form['policy_number'],
+                policy_underwriter=request.form['policy_underwriter']
+            )
+            update_policy(policy_id, policy_payload)
+            return redirect(url_for('admin.customer', customer_id=policy.customer_id))
+    else:
+        form = medicalPolicyForm(MedicalPolicyForm(obj=policy))
+        if form.validate_on_submit():
+            policy_payload = dict(
+                sum_insured=request.form['sum_insured'],
+                pre_existing_condition=True if request.form[
+                    'pre_existing_condition'
+                ] == 'y' else False,
+                date_of_birth=request.form['date_of_birth'],
+                policy_start_date=request.form['policy_start_date'],
+                payment_plan=PaymentPlans[
+                    request.form['payment_plan']
+                ],
+                policy_status=PolicyStatus[
+                    request.form['policy_status']
+                ],
+                policy_expiry_date=request.form['policy_expiry_date'],
+                policy_number=request.form['policy_number'],
+                policy_underwriter=request.form['policy_underwriter']
+            )
+            update_policy(policy_id, policy_payload)
+            return redirect(url_for('admin.customer', customer_id=policy.customer_id))
     return render_template(
         "admin/update-policy.html",
         form=form,
         action='/update-customer-policy/%s' % (policy_id),
-        customer_id=policy.customer_id
+        customer_id=policy.customer_id,
+        product_type=policy.product_type.name
     )
+
 
 @admin.route('/create-customer-invoice/<string:customer_id>', methods=['POST'])
 @login_required

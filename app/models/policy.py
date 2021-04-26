@@ -2,6 +2,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text
 from app.models import Base
 from app.models.mixins.motor_mixins import MotorMixin
+from app.models.mixins.medical_mixins import MedicalMixin
 from app.models.mixins import BasePolicyMixin
 from app import db
 from app.utils.enums import ProductTypes
@@ -63,4 +64,42 @@ class CommercialMotorPolicy(Policy, MotorMixin):
     }
 
     def __repr__(self):
-        return '<MotorPrivatePolicy %r>' % (self.id)
+        return '<MotorCommercialPolicy %r>' % (self.id)
+
+
+class MedicalInpatientPolicy(Policy, MedicalMixin):
+
+    __tablename__ = 'medical_inpatient_policies'
+
+    id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey('policies.id'),
+        primary_key=True,
+        server_default=text("uuid_generate_v4()")
+    )
+
+    __mapper_args__ = {
+        'polymorphic_identity': ProductTypes.MEDICAL_INPATIENT,
+    }
+
+    def __repr__(self):
+        return '<MedicalInpatientPolicy %r>' % (self.id)
+
+
+class MedicalOutpatientPolicy(Policy, MedicalMixin):
+
+    __tablename__ = 'medical_outpatient_policies'
+
+    id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey('policies.id'),
+        primary_key=True,
+        server_default=text("uuid_generate_v4()")
+    )
+
+    __mapper_args__ = {
+        'polymorphic_identity': ProductTypes.MEDICAL_OUTPATIENT,
+    }
+
+    def __repr__(self):
+        return '<MedicalOutpatientPolicy %r>' % (self.id)

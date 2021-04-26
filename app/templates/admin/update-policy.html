@@ -17,9 +17,15 @@
             </ul>
         </nav>
         <div class="box">
-            {% with button_text='Update Quotation' %}
+          {% if product_type == 'MOTOR_PRIVATE' or product_type == 'MOTOR_COMMERCIAL' %}
+            {% with button_text='Update Policy' %}
                 {% include 'forms/motor-policy.html' %}
             {% endwith %}
+          {% else %}
+            {% with button_text='Update Policy' %}
+                {% include 'forms/medical-policy.html' %}
+            {% endwith %}
+          {% endif %}
         </div>
     </div>
   </div>

@@ -32,3 +32,13 @@ def motorPolicyForm(motor_policy_form):
         (policy_status.name, policy_status.value) for policy_status in PolicyStatus
     ]
     return policy_form
+
+
+def medicalPolicyForm(form):
+    form.payment_plan.choices = [
+        (payment_plan.name, payment_plan.value) for payment_plan in PaymentPlans
+    ]
+    form.policy_status.choices = [
+        (policy_status.name, policy_status.value) for policy_status in PolicyStatus
+    ]
+    return form
