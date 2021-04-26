@@ -78,3 +78,7 @@ def commercial_motor_premium_claculator(sum_insured):
 
 def medical_inpatient_premium_claculator(sum_insured):
     return 0.01 * sum_insured
+
+
+def medical_outpatient_premium_claculator(sum_insured):
+    return 0.01 * sum_insured

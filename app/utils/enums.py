@@ -40,7 +40,7 @@ class ProductTypes(Enum):
     MOTOR_COMMERCIAL = "Motor Commercial"
     MOTOR_PRIVATE = "Motor Private"
     MEDICAL_INPATIENT = "Medical Inpatient"
-    MEDICAL_OUTPATIEN = "Medial Outpatient"
+    MEDICAL_OUTPATIENT = "Medial Outpatient"
 
 
 class PaymentPlans(Enum):

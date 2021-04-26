@@ -3,12 +3,13 @@ from app.models.user import User
 from app.models.customer import Customer, CustomerStatus
 from app.models.invoice import Invoice
 from app.models.payment import Payment
-from app.models.quotation import MotorPrivateQuotation, Quotation, \
-    MotorCommercialQuotation, MedicalInpatientQuotation
+from app.models.quotation import MotorPrivateQuotation, MotorCommercialQuotation, \
+    Quotation, MedicalInpatientQuotation, MedicalOutpatientQuotation
 from app.models.sale_item import SaleItem
 from app.models.policy import Policy, PrivateMotorPolicy, CommercialMotorPolicy
 from app.utils.utils import private_motor_premium_claculator, \
-    commercial_motor_premium_claculator, medical_inpatient_premium_claculator
+    commercial_motor_premium_claculator, medical_inpatient_premium_claculator, \
+        medical_outpatient_premium_claculator
 from app.utils.enums import ProductTypes
 
 
@@ -286,6 +287,7 @@ def update_policy(policy_id, policy_payload):
 def create_quote(quotation_payload):
     quotation = None
     product_type = quotation_payload['product_type']
+    print(product_type)
     if product_type == ProductTypes.MOTOR_PRIVATE:
         quotation = MotorPrivateQuotation(**quotation_payload)
         quotation.premium = private_motor_premium_claculator(
@@ -299,6 +301,11 @@ def create_quote(quotation_payload):
     elif product_type == ProductTypes.MEDICAL_INPATIENT:
         quotation = MedicalInpatientQuotation(**quotation_payload)
         quotation.premium = medical_inpatient_premium_claculator(
+            float(quotation.sum_insured)
+        )
+    elif product_type == ProductTypes.MEDICAL_OUTPATIENT:
+        quotation = MedicalOutpatientQuotation(**quotation_payload)
+        quotation.premium = medical_outpatient_premium_claculator(
             float(quotation.sum_insured)
         )
     quotation.premium = round(quotation.premium, 2)
@@ -339,6 +346,11 @@ def update_quote(quotation_id, quotation_payload):
             quotation.premium = medical_inpatient_premium_claculator(
                 float(quotation.sum_insured)
             )
+        elif quotation.product_type == ProductTypes.MEDICAL_OUTPATIENT:
+            quotation.premium = medical_outpatient_premium_claculator(
+                float(quotation.sum_insured)
+            )
+        quotation.premium = round(quotation.premium, 2)
         try:
             db.session.commit()
 

@@ -65,7 +65,7 @@ class MotorCommercialQuotation(Quotation, MotorMixin):
 
 class MedicalInpatientQuotation(Quotation, MedicalMixin):
 
-    __tablename__ = 'medical_impatient_quotations'
+    __tablename__ = 'medical_inpatient_quotations'
 
     id = db.Column(
         UUID(as_uuid=True),
@@ -76,6 +76,25 @@ class MedicalInpatientQuotation(Quotation, MedicalMixin):
 
     __mapper_args__ = {
         'polymorphic_identity': ProductTypes.MEDICAL_INPATIENT,
+    }
+
+    def __repr__(self):
+        return '<Quotation %r>' % (self.id)
+
+
+class MedicalOutpatientQuotation(Quotation, MedicalMixin):
+
+    __tablename__ = 'medical_outpatient_quotations'
+
+    id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey('quotations.id'),
+        primary_key=True,
+        server_default=text("uuid_generate_v4()")
+    )
+
+    __mapper_args__ = {
+        'polymorphic_identity': ProductTypes.MEDICAL_OUTPATIENT,
     }
 
     def __repr__(self):
