@@ -50,6 +50,9 @@ def customer(customer_id):
     customer_medical_inpatient_quotation_form = medicalQuotationForm(
         MedicalQuotationForm(product_type=ProductTypes.MEDICAL_INPATIENT)
     )
+    customer_medical_outpatient_quotation_form = medicalQuotationForm(
+        MedicalQuotationForm(product_type=ProductTypes.MEDICAL_OUTPATIENT)
+    )
     customer_private_motor_policy_form = motorPolicyForm(
         MotorPolicyForm(product_type=ProductTypes.MOTOR_PRIVATE)
     )
@@ -61,9 +64,10 @@ def customer(customer_id):
         customer_invoice_payment_form=customer_invoice_payment_form,
         customer_motor_private_quotation_form=customer_motor_private_quotation_form,
         customer_motor_commercial_quotation_form=customer_motor_commercial_quotation_form,
+        customer_medical_inpatient_quotation_form=customer_medical_inpatient_quotation_form,
+        customer_medical_outpatient_quotation_form=customer_medical_outpatient_quotation_form,
         customer_private_motor_policy_form=customer_private_motor_policy_form,
-        customer_commercial_motor_policy_form=customer_commercial_motor_policy_form,
-        customer_medical_inpatient_quotation_form=customer_medical_inpatient_quotation_form
+        customer_commercial_motor_policy_form=customer_commercial_motor_policy_form
     )
     customer_payload.update(customer_info)
     return render_template(
@@ -118,9 +122,9 @@ def create_customer_quotation(customer_id):
 @login_required
 def update_customer_quotation(quotation_id):
     quotation = get_quote(quotation_id)
+    quotation.payment_plan = quotation.payment_plan.name
     if quotation.product_type == ProductTypes.MOTOR_PRIVATE or quotation.product_type == ProductTypes.MOTOR_COMMERCIAL:
         quotation.motor_policy_type = quotation.motor_policy_type.name
-        quotation.payment_plan = quotation.payment_plan.name
         form = motorQuotationForm(
             MotorQuotationForm(obj=quotation)
         )
