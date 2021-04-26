@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField,  \
     HiddenField, validators, BooleanField
-from wtforms.fields.html5 import DateTimeLocalField, DecimalField, DateField
+from wtforms.fields.html5 import DecimalField, DateField
 from flask_wtf.file import FileField, FileRequired
 
 
@@ -15,7 +15,7 @@ class SaleItemForm(FlaskForm):
 
 
 class CustomerInvoiceForm(FlaskForm):
-    due_date = DateTimeLocalField('Invoice Due-Date', [
+    due_date = DateField('Invoice Due-Date', [
         validators.InputRequired()])
     amount = DecimalField('Amount', [validators.InputRequired()])
     policy_id = SelectField('Select Policy', [validators.InputRequired()])

@@ -1,4 +1,7 @@
+from os import environ
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
 from app.models import Base
 from app import db
 from app.utils.enums import CustomerStatus, GenderChoices
@@ -28,6 +31,22 @@ class Customer(Base):
     invoices = db.relationship('Invoice', backref='customer', lazy=True)
     quotations = db.relationship('Quotation', backref='customer', lazy=True)
     policies = db.relationship('Policy', backref='customer', lazy=True)
+
+    def token(self):
+        generated = datetime.now()
+        expiry = datetime.now() + timedelta(seconds=int(environ.get('JWT_TOKEN_LIFE_IN_SECONDS')))
+
+        token = jwt.encode(
+            {
+                "uid": str(self.id),
+                "exp": int(expiry.strftime("%s")),
+                "iat": int(generated.strftime("%s")),
+            },
+            environ.get('JWT_SECRET_KEY'),
+            algorithm="HS256",
+        )
+
+        return token
 
     @property
     def password(self):

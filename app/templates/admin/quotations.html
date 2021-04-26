@@ -14,7 +14,6 @@ page %}
               <th>Payment Plan</th>
               <th>Premium Estimate in (KSh.)</th>
               <th>Proposed Start Date</th>
-              <th colspan="2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -27,31 +26,6 @@ page %}
                 <td>{{ quotation.payment_plan.value }}</td>
                 <td>{{ "{:,}".format(quotation.premium) }}</td>
                 <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
-                <td>
-                  <a 
-                    href="{{
-                      '/update-customer-quotation/%s?quotation-type=%s' % (
-                        quotation.id, quotation.product_type.name
-                      ) 
-                    }}" 
-                    class="button is-small is-link is-light"
-                  >
-                      <span class="icon">
-                        <i class="fa fa-eye"></i>
-                      </span>
-                      <span>View & Edit Quotation </span>
-                    </a>
-                </td>
-                <td>
-                  <a href="#" class="button is-small is-primary is-light">
-                    <span class="icon">
-                      <i class="fa fa-envelope"></i>
-                    </span>
-                    <span>
-                      Mail Quotaion
-                    </span>
-                  </a>
-                </td>
               </tr>
               {% endfor %}
             {% else %}
