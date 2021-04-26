@@ -15,7 +15,6 @@
                 <th>Premium in (KSh.)</th>
                 <th>Policy Status</th>
                 <th>Policy Underwriter</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -28,22 +27,6 @@
                   <td>{{ "{:,}".format(policy.premium) }}</td>
                   <td>{{ policy.policy_status.value }}</td>
                   <td>{{ policy.policy_underwriter }}</td>
-                  <td>
-                    <button class="button is-small is-link is-outlined">
-                      <span class="icon">
-                        <i class="fa fa-eye"></i>
-                      </span>
-                      <span>View Policy</span>
-                    </button>
-                  </td>
-                  <!-- <td>
-                    <button class="button is-small is-link">
-                      <span class="icon">
-                        <i class="fa fa-plus"></i>
-                      </span>
-                      <span>Add Invoice</span>
-                    </button>
-                  </td> -->
                 </tr>
                 {% endfor %}
               {% else %}

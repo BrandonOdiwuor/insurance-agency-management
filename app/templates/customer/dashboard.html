@@ -1,10 +1,13 @@
-{% extends "base.html" %} {% include 'partials/navbar.html' %} {% block page %}
-<div class="container is-fluid">
-  <div class="columns" style="margin-top: 2em">
-    <div class="column">{% include 'partials/sidenav.html' %}</div>
-    <div class="column is-three-quarters">
-      <h1 class="title"># Customer home</h1>
-    </div>
+{% extends "base.html" %} 
+{% include 'partials/navbar.html' %}
+{% block page %}
+  <div class="container is-fluid">
+    <span class="is-size-4">
+      Welcome, {{'%s %s' % (customer.first_name, customer.last_name) }}
+    </span>
+    {% include 'partials/customer-dashboard-policies.html' %}
+    {% include 'partials/customer-dashboard-payments.html' %}
+    {% include 'partials/customer-dashboard-quotations.html' %}
+    {% include 'partials/customer-dashboard-invoices.html' %}
   </div>
-</div>
 {% endblock page %}

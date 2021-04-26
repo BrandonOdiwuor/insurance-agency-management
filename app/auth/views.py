@@ -86,7 +86,7 @@ def customer_signin():
 
         if customer:
             session['authorization'] = 'Bearer %s' % customer.token()
-            return redirect(url_for('app.home'))
+            return redirect(url_for('customer.dashboard'))
         else:
             form.email.errors.append('Wrong email or password')
 

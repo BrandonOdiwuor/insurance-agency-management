@@ -88,7 +88,7 @@ def create_customer(customer_payload):
 
 
 def verify_customer(email, password):
-    customer = Customer.query.filter_by(email=email).first()
+    customer = Customer.query.filter_by(primary_email=email).first()
 
     if customer and customer.verify_password(password):
         return customer

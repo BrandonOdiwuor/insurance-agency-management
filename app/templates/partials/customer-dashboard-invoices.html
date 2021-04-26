@@ -1,0 +1,40 @@
+<div class="mt-4 mb-5 box">
+    <div class="level">
+      <div class="level-left">
+        <span class="is-size-5 has-text-weight-bold">
+          Your Invoices
+        </span>
+      </div>
+      <div class="level-right"></div>
+    </div>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Policy</th>
+          <th>Amount</th>
+          <th>Due Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if invoices|length > 0 %}
+          {% for invoice in invoices %}
+          <tr>
+            <td>{{ invoice.policy.product_type.value }}</td>
+            <td>{{ "{:,}".format(invoice.amount) }}</td>
+            <td>{{ '{:%d-%b-%Y}'.format(invoice.due_date) }}</td>
+            <td>{{ invoice.status.name }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="4">
+            <span class="has-text-weight-bold has-text-primary">
+              No available invoices
+            </span>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+</div>

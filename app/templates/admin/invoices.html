@@ -13,7 +13,6 @@
               <th>Amount</th>
               <th>Due Date</th>
               <th>Status</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -22,24 +21,8 @@
               <tr>
                 <td>{{ invoice.policy.product_type.value }}</td>
                 <td>{{ "{:,}".format(invoice.amount) }}</td>
-                <td>{{ '{:%d-%b-%Y %H:%M}'.format(invoice.due_date) }}</td>
+                <td>{{ '{:%d-%b-%Y}'.format(invoice.due_date) }}</td>
                 <td>{{ invoice.status.name }}</td>
-                <td>
-                  <a
-                      href="#"
-                      class="button is-small is-link"
-                      onclick="updatePaymentFormModal(
-                        'newCustomeInvoicePayment',
-                        'customerInvoicePaymentID',
-                        '{{ invoice.id }}'
-                      )"
-                    >
-                      <span class="icon">
-                        <i class="fa fa-plus"></i>
-                      </span>
-                      <span>Add Invoice Payment</span>
-                    </a>
-                </td>
               </tr>
               {% endfor %}
             {% else %}

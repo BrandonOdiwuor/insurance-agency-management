@@ -1,0 +1,42 @@
+<div class="box mt-4">
+  <div class="level">
+    <div class="level-left">
+      <span class="is-size-5 has-text-weight-bold">
+        Your Policies
+      </span>
+    </div>
+    <div class="level-right"></div>
+  </div>
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>Policy Type</th>
+        <th>Sum Insured in (KSh.)</th>
+        <th>Premium in (KSh.)</th>
+        <th>Policy Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if policies|length > 0 %}
+        {% for policy in policies %}
+          <tr>
+            <td>{{ '{:%d-%b-%Y}'.format(policy.policy_start_date) }}</td>
+            <td>{{ policy.product_type.value }}</td>
+            <td>{{ "{:,}".format(policy.sum_insured) }}</td>
+            <td>{{ "{:,}".format(policy.premium) }}</td>
+            <td>{{ policy.policy_status.value }}</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="4">
+            <span class="has-text-weight-bold has-text-primary">
+              No available covers
+            </span>
+          </td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

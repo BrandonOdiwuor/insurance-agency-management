@@ -1,0 +1,44 @@
+<div class="mt-4 box">
+    <div class="level">
+      <div class="level-left">
+        <span class="is-size-5 has-text-weight-bold">
+          Your Quotations
+        </span>
+      </div>
+      <div class="level-right"></div>
+    </div>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Quoted on</th>
+          <th>Quotation Type</th>
+          <th>Sum Insured in (KSh.)</th>
+          <th>Payment Plan</th>
+          <th>Premium Estimate in (KSh.)</th>
+          <th>Proposed Start Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if quotations|length > 0 %}
+          {% for quotation in quotations %}
+          <tr>
+            <td>{{ '{:%d-%b-%Y}'.format(quotation.created_at) }}</td>
+            <td>{{ quotation.product_type.value }}</td>
+            <td>{{ "{:,}".format(quotation.sum_insured) }}</td>
+            <td>{{ quotation.payment_plan.value }}</td>
+            <td>{{ "{:,}".format(quotation.premium) }}</td>
+            <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="4">
+            <span class="has-text-weight-bold has-text-primary">
+              No available quotations
+            </span>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>

@@ -33,7 +33,7 @@
         <tr>
           <td>{{ invoice.policy.product_type.value }}</td>
           <td>{{ "{:,}".format(invoice.amount) }}</td>
-          <td>{{ '{:%d-%b-%Y %H:%M}'.format(invoice.due_date) }}</td>
+          <td>{{ '{:%d-%b-%Y}'.format(invoice.due_date) }}</td>
           <td>{{ invoice.status.name }}</td>
           <td>
             <a
