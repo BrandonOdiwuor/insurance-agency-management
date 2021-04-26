@@ -64,6 +64,9 @@ def customer(customer_id):
     customer_medical_inpatient_policy_form = medicalPolicyForm(
         MedicalPolicyForm(product_type=ProductTypes.MEDICAL_INPATIENT)
     )
+    customer_medical_outpatient_policy_form = medicalPolicyForm(
+        MedicalPolicyForm(product_type=ProductTypes.MEDICAL_OUTPATIENT)
+    )
     customer_payload = dict(
         customer_invoice_form=customer_invoice_form,
         customer_invoice_payment_form=customer_invoice_payment_form,
@@ -73,7 +76,8 @@ def customer(customer_id):
         customer_medical_outpatient_quotation_form=customer_medical_outpatient_quotation_form,
         customer_private_motor_policy_form=customer_private_motor_policy_form,
         customer_commercial_motor_policy_form=customer_commercial_motor_policy_form,
-        customer_medical_inpatient_policy_form=customer_medical_inpatient_policy_form
+        customer_medical_inpatient_policy_form=customer_medical_inpatient_policy_form,
+        customer_medical_outpatient_policy_form=customer_medical_outpatient_policy_form
     )
     customer_payload.update(customer_info)
     return render_template(
@@ -266,6 +270,7 @@ def update_customer_policy(policy_id):
             update_policy(policy_id, policy_payload)
             return redirect(url_for('admin.customer', customer_id=policy.customer_id))
     else:
+        policy.policy_status = policy.policy_status.name 
         form = medicalPolicyForm(MedicalPolicyForm(obj=policy))
         if form.validate_on_submit():
             policy_payload = dict(
