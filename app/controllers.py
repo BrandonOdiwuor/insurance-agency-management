@@ -7,7 +7,7 @@ from app.models.quotation import MotorPrivateQuotation, MotorCommercialQuotation
     Quotation, MedicalInpatientQuotation, MedicalOutpatientQuotation
 from app.models.sale_item import SaleItem
 from app.models.policy import Policy, PrivateMotorPolicy, CommercialMotorPolicy, \
-    MedicalInpatientPolicy
+    MedicalInpatientPolicy, MedicalOutpatientPolicy
 from app.utils.utils import private_motor_premium_claculator, \
     commercial_motor_premium_claculator, medical_inpatient_premium_claculator, \
         medical_outpatient_premium_claculator
@@ -246,6 +246,11 @@ def create_policy(policy_payload):
         policy.premium = medical_inpatient_premium_claculator(
             float(policy.sum_insured)
         )
+    elif policy_payload['product_type'] == ProductTypes.MEDICAL_OUTPATIENT:
+        policy = MedicalOutpatientPolicy(**policy_payload)
+        policy.premium = medical_outpatient_premium_claculator(
+            float(policy.sum_insured)
+        )
     policy.premium = round(policy.premium, 2)
     try:
         db.session.add(policy)
@@ -278,8 +283,16 @@ def update_policy(policy_id, policy_payload):
             policy.premium = private_motor_premium_claculator(
                 float(policy.sum_insured)
             )
-        else:
+        elif policy.product_type == ProductTypes.MOTOR_COMMERCIAL:
             policy.premium = commercial_motor_premium_claculator(
+                float(policy.sum_insured)
+            )
+        elif policy.product_type == ProductTypes.MEDICAL_INPATIENT:
+            policy.premium = medical_inpatient_premium_claculator(
+                float(policy.sum_insured)
+            )
+        elif policy.product_type == ProductTypes.MEDICAL_OUTPATIENT:
+            policy.premium = medical_outpatient_premium_claculator(
                 float(policy.sum_insured)
             )
         policy.premium = round(policy.premium, 2)
