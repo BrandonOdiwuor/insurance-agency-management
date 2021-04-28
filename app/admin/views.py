@@ -3,16 +3,19 @@ from . import admin
 from app.utils.utils import login_required, save_file
 from app.utils.enums import PaymentModes, MotorPolicyTypes, \
     ProductTypes, PaymentPlans, PolicyStatus, InvoiceStatus
+from app.utils.emails import send_email
 from app.controllers import get_customers, get_customer_info, \
     update_customer_status, get_customer_policies, create_item_of_sale, \
     get_invoices, create_invoice, create_payment, get_payments, \
-    create_quote, get_quote, update_quote, get_quotes, \
-    create_policy, get_items_of_sale, get_policies, get_policy, update_policy
+    create_quote, get_quote, update_quote, get_quotes, get_invoice, \
+    create_policy, get_items_of_sale, get_policies, get_policy, update_policy, \
+    get_payment
 from .forms import SaleItemForm, CustomerInvoiceForm, MotorQuotationForm, \
     CustomerInvoicePaymentForm, MotorPolicyForm, MedicalQuotationForm, \
     MedicalPolicyForm
 from .utils import motorQuotationForm, motorPolicyForm, medicalQuotationForm, \
     medicalPolicyForm
+from os import environ
 
 
 @admin.route('/dashboard', methods=['GET'])
@@ -208,7 +211,8 @@ def create_customer_policy(customer_id):
             policy_expiry_date=request.form['policy_expiry_date'],
             policy_number=request.form['policy_number'],
             policy_underwriter=request.form['policy_underwriter'],
-            log_book_attachment=save_file(request.files['log_book_attachment']),
+            log_book_attachment=save_file(
+                request.files['log_book_attachment']),
             customer_id=customer_id
         )
     else:
@@ -240,7 +244,7 @@ def update_customer_policy(policy_id):
     policy = get_policy(policy_id)
     policy.payment_plan = policy.payment_plan.name
     if policy.product_type == ProductTypes.MOTOR_PRIVATE or policy.product_type == ProductTypes.MOTOR_COMMERCIAL:
-        policy.policy_status = policy.policy_status.name 
+        policy.policy_status = policy.policy_status.name
         policy.motor_policy_type = policy.motor_policy_type.name
         form = motorPolicyForm(MotorPolicyForm(obj=policy))
         if form.validate_on_submit():
@@ -270,7 +274,7 @@ def update_customer_policy(policy_id):
             update_policy(policy_id, policy_payload)
             return redirect(url_for('admin.customer', customer_id=policy.customer_id))
     else:
-        policy.policy_status = policy.policy_status.name 
+        policy.policy_status = policy.policy_status.name
         form = medicalPolicyForm(MedicalPolicyForm(obj=policy))
         if form.validate_on_submit():
             policy_payload = dict(
@@ -313,6 +317,56 @@ def create_customer_ivoice(customer_id):
     )
     create_invoice(invoice_payload)
     return redirect(url_for('admin.customer', customer_id=customer_id))
+
+
+@admin.route('/mail-customer-invoice/<string:invoice_id>', methods=['GET'])
+@login_required
+def mail_customer_ivoice(invoice_id):
+    invoice = get_invoice(invoice_id)
+    subject = 'Granate: Invoice - (%s)' % '{:%d-%b-%Y}'.format(
+        invoice.created_at)
+    template = render_template('mails/customer-invoice.html', invoice=invoice)
+    recipients = [invoice.customer.primary_email]
+    send_email(
+        subject,
+        template,
+        recipients
+    )
+    return redirect(url_for('admin.customer', customer_id=invoice.customer_id))
+
+
+@admin.route('/mail-customer-quotation/<string:quotation_id>', methods=['GET'])
+@login_required
+def mail_customer_quotation(quotation_id):
+    quotation = get_quote(quotation_id)
+    subject = 'Granate: Quotation - (%s)' % '{:%d-%b-%Y}'.format(
+        quotation.created_at)
+    template = render_template(
+        'mails/customer-quotation.html', quotation=quotation)
+    recipients = [quotation.customer.primary_email]
+    send_email(
+        subject,
+        template,
+        recipients
+    )
+    return redirect(url_for('admin.customer', customer_id=quotation.customer_id))
+
+
+@admin.route('/mail-customer-payment-receipt/<string:payment_id>', methods=['GET'])
+@login_required
+def mail_customer_payment_recepit(payment_id):
+    payment = get_payment(payment_id)
+    subject = 'Granate: Payment Receipt - (%s)' % '{:%d-%b-%Y}'.format(
+        payment.created_at)
+    template = render_template(
+        'mails/customer-payment-receipt.html', payment=payment)
+    recipients = [payment.invoice.customer.primary_email]
+    send_email(
+        subject,
+        template,
+        recipients
+    )
+    return redirect(url_for('admin.customer', customer_id=payment.invoice.customer_id))
 
 
 @admin.route(
