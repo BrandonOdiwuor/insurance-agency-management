@@ -12,6 +12,7 @@
         <th>Payment Mode</th>
         <th>Amount</th>
         <th>Payment Date</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +23,19 @@
             <td>{{ payment.payment_mode.value }}</td>
             <td>{{ "{:,}".format(payment.amount) }}</td>
             <td>{{ '{:%d-%b-%Y}'.format(payment.created_at) }}</td>
+            <td>
+              <a 
+                href="{{ '/mail-customer-payment-receipt/%s' % payment.id }}" 
+                class="button is-small is-primary is-light"
+              >
+                <span class="icon">
+                  <i class="fa fa-envelope"></i>
+                </span>
+                <span>
+                  Mail Payment Receipt
+                </span>
+              </a>
+            </td>
           </tr>
         {% endfor %}
       {% else %}

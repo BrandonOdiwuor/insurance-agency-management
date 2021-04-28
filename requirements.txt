@@ -9,3 +9,4 @@ python-dotenv==0.15.0
 Flask-Migrate==2.7.0
 gunicorn==20.1.0
 psycopg2-binary
+Flask-Mail==0.9.1

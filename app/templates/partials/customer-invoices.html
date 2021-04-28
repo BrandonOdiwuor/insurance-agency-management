@@ -24,7 +24,7 @@
         <th>Amount</th>
         <th>Due Date</th>
         <th>Status</th>
-        <th>Actions</th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -50,6 +50,19 @@
                 </span>
                 <span>Add Invoice Payment</span>
               </a>
+          </td>
+          <td>
+            <a 
+              href="{{ '/mail-customer-invoice/%s' % invoice.id }}" 
+              class="button is-small is-primary is-light"
+            >
+              <span class="icon">
+                <i class="fa fa-envelope"></i>
+              </span>
+              <span>
+                Mail Invoice
+              </span>
+            </a>
           </td>
         </tr>
         {% endfor %}

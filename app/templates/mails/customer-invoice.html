@@ -1,0 +1,53 @@
+{% extends "mails/base-mail.html" %}
+{% block page %}
+<p>
+    <strong>{{'Dear %s,' % (invoice.customer.first_name)}}</strong>
+</p>
+<div>
+    <p> Please view the details of the Invoice below:</p>
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Invoice:</strong></td>
+                <td>{{ invoice.id }}</td>
+            </tr>
+            <tr>
+                <td><strong>Issue Date:</strong></td>
+                <td>{{ '{:%d-%b-%Y}'.format(invoice.created_at) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Due Date:</strong></td>
+                <td>{{ '{:%d-%b-%Y}'.format(invoice.due_date) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Due Amount:</strong></td>
+                <td>{{ 'Ksh. %s' % "{:,}".format(invoice.amount) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Description:</strong></td>
+                <td>{{ 'Payment for %s policy' % invoice.policy.product_type.value }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <p> Please log in to the Granate platform to view more details</p>
+        <div style="text-align: center; margin: 1.5em;">
+            <a
+                style="
+                    background-color: #a80606;
+                    color: white;
+                    padding: 1em 1.5em;
+                    text-decoration: none;
+                    font-weight: bold;
+                "
+            >
+                View Invoice
+            </a>
+        </div>
+        <p>With love,<br>Granate Reality</p><br>
+    </div>
+    <div>
+        <p><strong>DO NOT</strong> reply to this email.</p>
+    </div>
+</div>
+{% endblock page %}

@@ -1,0 +1,65 @@
+{% extends "mails/base-mail.html" %}
+{% block page %}
+<p>
+    {{'Dear %s,' % (quotation.customer.first_name)}}
+</p>
+<div>
+    <p> Please view the details of the Quotation below:</p>
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Quotation:</strong></td>
+                <td>{{ quotation.id }}</td>
+            </tr>
+            <tr>
+                <td><strong>Quoted on:</strong></td>
+                <td>{{ '{:%d-%b-%Y}'.format(quotation.created_at) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Sum Insured in (KSh.):</strong></td>
+                <td>{{ "{:,}".format(quotation.sum_insured) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Premium Estimate in (KSh.):</strong></td>
+                <td>{{ "{:,}".format(quotation.premium) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Plan:</strong></td>
+                <td>{{ quotation.payment_plan.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Your Proposed Start Date:</strong></td>
+                <td>{{ '{:%d-%b-%Y}'.format(quotation.policy_start_date) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Description:</strong></td>
+                <td>
+                    {{ 'Quotation for %s policy' % quotation.product_type.value }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <p> 
+            Please log in to the Granate platform to view more details
+        </p>
+        <div style="text-align: center; margin: 1.5em;">
+            <a
+                style="
+                    background-color: #a80606;
+                    color: white;
+                    padding: 1em 1.5em;
+                    text-decoration: none;
+                    font-weight: bold;
+                "
+            >
+                View Quotaion
+            </a>
+        </div>
+        <p>With love,<br>Granate Reality</p><br>
+    </div>
+    <div>
+        <p><strong>DO NOT</strong> reply to this email.</p>
+    </div>
+</div>
+{% endblock page %}
